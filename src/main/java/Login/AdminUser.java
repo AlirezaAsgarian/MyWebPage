@@ -7,6 +7,7 @@ import lombok.Getter;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.UUID;
 
 public class AdminUser extends User{
 
@@ -17,8 +18,8 @@ public class AdminUser extends User{
         this.posts = posts;
     }
 
-    public void createPost(Component... components) {
-        Post newPost = new Post(List.of(components),this);
-        this.posts.add(newPost);
+
+    public void addPost(Post post) {
+        this.posts.add(post);
     }
 }

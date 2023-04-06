@@ -14,7 +14,7 @@ public class NormalUser extends User{
         super(name,password);
         this.comments = comments;
     }
-    public void createCommment(TextBoxComponent textBox,Post commentPost) {
-        this.comments.add(new Comment(textBox,this,commentPost));
+    public Comment createCommment(TextBoxComponent textBox,Post commentPost) {
+        return new Comment(textBox,this,commentPost);
     }
 }

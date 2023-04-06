@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import static org.mockito.Mockito.mock;
 
 public class AddCommentTest {
+    CommentController commentController;
     @Mock
     TextBoxComponent textBox;
     @Mock
@@ -25,6 +26,7 @@ public class AddCommentTest {
         this.textBox = mock(TextBoxComponent.class);
         this.normalUser = mock(NormalUser.class);
         this.post = mock(Post.class);
+        this.commentController = new CommentController();
     }
     @Test
     public void canAddingTextBoxToComment(){
@@ -35,7 +37,10 @@ public class AddCommentTest {
     @Test
     public void canCreateComment() {
         NormalUser normalUser1 = new NormalUser("ali","password",new ArrayList<>());
-        normalUser1.createCommment(this.textBox,this.post);
+        Comment comment = commentController.createCommment(this.textBox,this.post,normalUser1);
         Assertions.assertEquals(normalUser1.getComments().get(0).getOwner(),normalUser1);
+        Assertions.assertEquals(normalUser1.getComments().get(0).getCommentsPost(),this.post);
+        Assertions.assertEquals(this.post.getComments().get(0),comment);
     }
+
 }

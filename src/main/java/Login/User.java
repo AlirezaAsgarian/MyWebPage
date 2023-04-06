@@ -8,10 +8,21 @@ public class User {
 
     @Getter
     String password;
+    @Getter
+    UserGraphics userGraphics;
+
+
 
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+        this.userGraphics = new UserGraphics(null,name);
+    }
+
+    public User(String name, String password, UserGraphics userGraphics) {
+        this.name = name;
+        this.password = password;
+        this.userGraphics = userGraphics;
     }
 
     public User() {}

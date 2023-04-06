@@ -38,6 +38,7 @@ public class AddCommentTest {
     public void canCreateComment() {
         NormalUser normalUser1 = new NormalUser("ali","password",new ArrayList<>());
         Comment comment = commentController.createCommment(this.textBox,this.post,normalUser1);
+
         Assertions.assertEquals(normalUser1.getComments().get(0).getOwner(),normalUser1);
         Assertions.assertEquals(normalUser1.getComments().get(0).getCommentsPost(),this.post);
         Assertions.assertEquals(this.post.getComments().get(0),comment);

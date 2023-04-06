@@ -22,7 +22,7 @@ public class LoginController {
         if(userExistsWithThisName(user)){
             return "user exists with this name";
         }
-        dataBaseApi.addUser(user.getName(),user.getPassword());
+        dataBaseApi.addUser(user);
         return "user added successfully";
     }
 

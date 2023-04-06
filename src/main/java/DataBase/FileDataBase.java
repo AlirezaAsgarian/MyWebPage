@@ -71,10 +71,7 @@ public class FileDataBase implements DataBaseApi {
         return false;
     }
 
-    @Override
-    public void addUser(String name, String password) {
-        this.users.add(new User(name,password));
-    }
+
 
     @Override
     public void addUser(User user) {

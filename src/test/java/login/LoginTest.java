@@ -25,7 +25,7 @@ public class LoginTest {
         this.user.setName("asghar");
         this.user.setPasword("");
         String loginMessage = this.loginController.loginUser(user);
-        Assertions.assertEquals(loginMessage,"no user exist with this name");
+        Assertions.assertEquals(loginMessage,"no user exists with this name");
     }
     @Test
     public void unsucssessfullyLoginTestWrongPassword(){

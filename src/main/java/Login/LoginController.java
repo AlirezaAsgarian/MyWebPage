@@ -50,7 +50,7 @@ public class LoginController {
             return "no admin exists with this name";
         }
         // login
-        return "admin logged in succsessfully";
+        return "admin logged in successfully";
     }
 
     private boolean checkAdminUserIfExistWithThisName(User user) {

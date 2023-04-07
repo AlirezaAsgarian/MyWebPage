@@ -7,6 +7,7 @@ import Login.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import util.Pair;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,16 +22,15 @@ public class FileDataBase implements DataBaseApi {
     List<User> users;
 
     public FileDataBase(List<User> users)  {
-        this.users = readUsers(getGsonFile());
+        this.users = (List<User>) readFromGson(getGsonFile("users.txt"),new TypeToken<List<User>>() {}.getType());
         if(this.users == null)
             this.users = new ArrayList<>(users);
         else
             this.users.addAll(users);
     }
 
-    public List<User> readUsers(File file){
+    public Object readFromGson(File file, Type REVIEW_TYPE){
         Gson gson = new Gson();
-        Type REVIEW_TYPE = new TypeToken<List<User>>() {}.getType();
         JsonReader jsonReader = getGsonReader(file);
         return gson.fromJson(jsonReader,REVIEW_TYPE);
     }
@@ -44,9 +44,9 @@ public class FileDataBase implements DataBaseApi {
         }
     }
 
-    private File getGsonFile() {
+    private File getGsonFile(String filename) {
         try {
-            File file = new File("users.txt");
+            File file = new File(filename);
             if (file.exists()) {
                 return file;
             } else {
@@ -71,10 +71,7 @@ public class FileDataBase implements DataBaseApi {
         return false;
     }
 
-    @Override
-    public void addUser(String name, String password) {
-        this.users.add(new User(name,password));
-    }
+
 
     @Override
     public void addUser(User user) {
@@ -91,7 +88,7 @@ public class FileDataBase implements DataBaseApi {
     }
 
     @Override
-    public boolean checkAdminUserIfExistWithThisName(User user) {
+    public boolean checkAdminUserIfExistWithThisName(String user) {
         for (User u:
                 this.users) {
             if(u.checkIfNamesAreIdentical(user) && u instanceof AdminUser){
@@ -100,6 +97,29 @@ public class FileDataBase implements DataBaseApi {
         }
         return false;
     }
+
+    @Override
+    public Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisName(String name) {
+        for (User u:
+                this.users) {
+            if(u.checkIfNamesAreIdentical(name) && u instanceof NormalUser nu){
+                return new Pair<Boolean,NormalUser>(true,nu);
+            }
+        }
+        return new Pair<>(false,null);
+    }
+
+    @Override
+    public boolean checkAdminUserIfAllowedWithThisName(String name) {
+        List<String> allowedNames = (List<String>)readFromGson(getGsonFile("allowedNames.txt"),new TypeToken<List<String>>() {}.getType());
+        if(allowedNames.contains(name)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
 
     private User findUserByName(User user) {
         for (User u:

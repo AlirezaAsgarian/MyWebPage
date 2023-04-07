@@ -1,8 +1,8 @@
 package Login;
 
-import Post.Comment;
-import Post.Post;
-import Post.TextBoxComponent;
+import post.Comment;
+import post.Post;
+import post.TextBoxComponent;
 import lombok.Getter;
 
 import java.util.List;

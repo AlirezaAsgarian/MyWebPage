@@ -24,28 +24,36 @@ public class LoginTest {
     public void unsucssessfulyLoginTest(){
         this.user.setName("asghar");
         this.user.setPasword("");
-        String loginMessage = this.loginController.loginUser(user);
-        Assertions.assertEquals(loginMessage,"no user exist with this name");
+        String loginMessage = this.loginController.loginUser(user.getName(),user.getPassword());
+        Assertions.assertEquals("no user exists with this name", loginMessage);
     }
+
     @Test
     public void unsucssessfullyLoginTestWrongPassword(){
         this.user.setName("ali");
         this.user.setPasword("wrong password");
-        String loginMessage = this.loginController.loginUser(user);
-        Assertions.assertEquals(loginMessage,"password is wrong");
+        String loginMessage = this.loginController.loginUser(user.getName(),user.getPassword());
+        Assertions.assertEquals("password is wrong", loginMessage);
+    }
+    @Test
+    void successfulLoginTest(){
+        this.user.setName("ali");
+        this.user.setPasword("AliPassword");
+        String loginMessage = this.loginController.loginUser(user.getName(),user.getPassword());
+        Assertions.assertEquals("ali logged in successfully", loginMessage);
     }
     @Test
     public void loginAdminUser(){
         this.user = new AdminUser("ali","password",new ArrayList<>());
         this.dataBaseApi.addUser(this.user);
         String loginMessage = this.loginController.loginAdminUser(this.user);
-        Assertions.assertEquals(loginMessage,"admin logged in successfully");
+        Assertions.assertEquals("admin logged in successfully", loginMessage);
     }
     @Test
     public void loginAdminUnsuccessfullyHoweverNormalUserWithThisNameExists(){
         this.user = new AdminUser("ali","password",new ArrayList<>());
         String loginMessage = this.loginController.loginAdminUser(this.user);
-        Assertions.assertEquals(loginMessage,"no admin exists with this name");
+        Assertions.assertEquals("no admin exists with this name", loginMessage);
     }
 
 }

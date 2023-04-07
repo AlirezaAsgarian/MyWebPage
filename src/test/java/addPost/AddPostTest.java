@@ -1,6 +1,7 @@
 package addPost;
 
 import Login.AdminUser;
+import Login.DataBaseApi;
 import post.ImageComponent;
 import post.*;
 import org.junit.jupiter.api.Assertions;
@@ -26,6 +27,8 @@ public class AddPostTest {
     PostController postController;
     @Mock
     PostPresenter postPresenter;
+    @Mock
+    DataBaseApi dataBaseApi;
     @BeforeEach
     public void setup() {
         this.image = mock(ImageComponent.class);
@@ -33,7 +36,8 @@ public class AddPostTest {
         this.video = mock(VideoComponent.class);
         this.adminUser = mock(AdminUser.class);
         this.postPresenter = mock(PostPresenter.class);
-        this.postController = new PostController(this.postPresenter);
+        this.dataBaseApi = mock(DataBaseApi.class);
+        this.postController = new PostController(this.postPresenter,this.dataBaseApi);
     }
     @Test
     public void canAddingImageToPost(){
@@ -63,7 +67,7 @@ public class AddPostTest {
     @Test
     public void createPostByAdminUser(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
-        Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(),adminUser,image,video,textBox);
+        Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), image,video,textBox);
         Post post = postXmessage.getKey();
         String postMessage = postXmessage.getValue();
         Assertions.assertTrue(adminUser.getPosts().get(0).getComponents().get(0) instanceof ImageComponent);

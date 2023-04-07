@@ -1,10 +1,9 @@
-package login;
+package logintests;
 
 import DataBase.FileDataBase;
 import Login.AdminUser;
 import Login.DataBaseApi;
 import Login.NormalUser;
-import Login.User;
 
 import java.util.ArrayList;
 

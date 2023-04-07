@@ -119,7 +119,16 @@ public class FileDataBase implements DataBaseApi {
         }
     }
 
-
+    @Override
+    public AdminUser getAdminUserByName(String name) {
+        for (User u:
+                this.users) {
+            if(u.checkIfNamesAreIdentical(name) && u instanceof AdminUser au){
+                return au;
+            }
+        }
+        return null;
+    }
 
     private User findUserByName(User user) {
         for (User u:

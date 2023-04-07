@@ -19,4 +19,14 @@ public class AdminUser extends User{
     public void addPost(Post post) {
         this.posts.add(post);
     }
+
+    public Post getPostById(String postId) {
+        for (Post post:
+             posts) {
+            if(postId.equals(post.getId())){
+                return post;
+            }
+        }
+        return null;
+    }
 }

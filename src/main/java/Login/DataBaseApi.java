@@ -11,6 +11,8 @@ public interface DataBaseApi {
     boolean isCorrectPasswordForThisUser(User user);
 
     boolean checkAdminUserIfExistWithThisName(String name);
+    AdminUser getAdminUserByName(String name);
+
 
     Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisName(String name);
 

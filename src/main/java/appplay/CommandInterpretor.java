@@ -1,14 +1,13 @@
 package appplay;
 
 import Login.LoginController;
-import Login.NormalUser;
 
 import java.util.ArrayList;
 
-public class GameInterpretor implements Interpreter {
+public class CommandInterpretor implements Interpreter {
     LoginController loginController;
 
-    public GameInterpretor(LoginController loginController) {
+    public CommandInterpretor(LoginController loginController) {
         this.loginController = loginController;
     }
 
@@ -16,7 +15,7 @@ public class GameInterpretor implements Interpreter {
         String[] words = command.getCommand().split("\\s+");
         Response response = null;// split by whitespace
         switch (words[0]) {
-            case "login" -> response = login(words);
+            case "logintests" -> response = login(words);
             case "adduser" -> response = addUser(words);
         }
         return response;

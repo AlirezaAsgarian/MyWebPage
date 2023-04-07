@@ -1,4 +1,4 @@
-package login;
+package logintests;
 
 import Login.AdminUser;
 import Login.DataBaseApi;

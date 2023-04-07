@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import util.Pair;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
@@ -69,13 +70,13 @@ public class AddPostTest {
     public void createPostByAdminUser(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
         when(this.dataBaseApi.getAdminUserByName(adminUser.getName())).thenReturn(adminUser);
-        Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), image,video,textBox);
+        Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), List.of(image,video,textBox));
         Post post = postXmessage.getKey();
         String postMessage = postXmessage.getValue();
         Assertions.assertTrue(adminUser.getPosts().get(0).getComponents().get(0) instanceof ImageComponent);
         Assertions.assertTrue(adminUser.getPosts().get(0).getComponents().get(1) instanceof VideoComponent);
         Assertions.assertTrue(adminUser.getPosts().get(0).getComponents().get(2) instanceof TextBoxComponent);
         Assertions.assertEquals(adminUser.getPosts().get(0).getOwner(),adminUser);
-        Assertions.assertEquals(postMessage,"post created and added successfully");
+        Assertions.assertEquals(postMessage,"post with id " + post.getId() + " created and added successfully");
     }
 }

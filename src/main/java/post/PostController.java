@@ -23,11 +23,11 @@ public class PostController {
         post.setShowing(true);
         return "post with id " + post.getId() + " is showing successfully";
     }
-    public Pair<Post,String> addPost(List<Comment> comments, String name, Component... components) {
+    public Pair<Post,String> addPost(List<Comment> comments, String name, List<Component> components) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(name);
-        Post post = new Post(List.of(components),comments,adminUser, UUID.randomUUID().toString());
+        Post post = new Post(components,comments,adminUser, UUID.randomUUID().toString());
         adminUser.addPost(post);
-        return new Pair<Post, String>(post,"post created and added successfully");
+        return new Pair<Post, String>(post,"post with id " + post.getId() + " created and added successfully");
     }
 
     public String showPostComments(Post post, List<Comment> comments) {

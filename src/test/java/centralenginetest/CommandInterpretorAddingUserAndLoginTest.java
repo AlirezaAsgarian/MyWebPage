@@ -10,18 +10,25 @@ import logintests.MotherLogin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import post.PostController;
+
+import static org.mockito.Mockito.mock;
 
 public class CommandInterpretorAddingUserAndLoginTest {
 
     CommandInterpretor commandInterpretor;
     DataBaseApi dataBaseApi;
     LoginController loginController;
+    @Mock
+    PostController postController;
     User user;
     @BeforeEach
     public void setDataBase(){
+        this.postController = mock(PostController.class);
         this.dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
-        this.loginController = new LoginController(dataBaseApi);
-        this.commandInterpretor = new CommandInterpretor(loginController);
+        this.loginController = new LoginController(this.dataBaseApi);
+        this.commandInterpretor = new CommandInterpretor(this.loginController,this.postController);
         this.user = new User();
     }
 

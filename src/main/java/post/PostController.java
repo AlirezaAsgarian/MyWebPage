@@ -5,7 +5,6 @@ import Login.AdminUser;
 import Login.DataBaseApi;
 import util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +53,7 @@ public class PostController {
     }
 
 
-    public String showPostByAdminNameAdnPostId(String postId, String adminName) {
+    public String showPostByAdminNameAndPostId(String postId, String adminName) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
         if(adminUser == null){
             return "no admin exists with this name";
@@ -62,6 +61,9 @@ public class PostController {
         Post post = adminUser.getPostById(postId);
         if (post == null){
             return "no post exists with this id";
+        }
+        if (post.isShowing()){
+            return "post is already showing";
         }
         return this.showPost(post);
 

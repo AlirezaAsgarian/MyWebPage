@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AddPostTest {
     @Mock
@@ -67,6 +68,7 @@ public class AddPostTest {
     @Test
     public void createPostByAdminUser(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
+        when(this.dataBaseApi.getAdminUserByName(adminUser.getName())).thenReturn(adminUser);
         Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), image,video,textBox);
         Post post = postXmessage.getKey();
         String postMessage = postXmessage.getValue();

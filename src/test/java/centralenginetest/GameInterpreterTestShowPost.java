@@ -40,7 +40,7 @@ public class GameInterpreterTestShowPost {
         String postShowingMessage = postController.showPost(post);
         Assertions.assertTrue(post.isShowing());
         Assertions.assertFalse(post.isShowingComments());
-        Assertions.assertEquals(postShowingMessage,"post is showing successfully");
+        Assertions.assertEquals(postShowingMessage,"post with id " + post.getId() + " is showing successfully");
         Assertions.assertFalse(post.isShowingComments());
     }
 }

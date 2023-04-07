@@ -15,7 +15,7 @@ public class CommandInterpretor implements Interpreter {
         String[] words = command.getCommand().split("\\s+");
         Response response = null;// split by whitespace
         switch (words[0]) {
-            case "logintests" -> response = login(words);
+            case "login" -> response = login(words);
             case "adduser" -> response = addUser(words);
         }
         return response;

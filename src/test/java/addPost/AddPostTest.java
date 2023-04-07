@@ -1,8 +1,8 @@
 package addPost;
 
 import Login.AdminUser;
-import Post.ImageComponent;
-import Post.*;
+import post.ImageComponent;
+import post.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

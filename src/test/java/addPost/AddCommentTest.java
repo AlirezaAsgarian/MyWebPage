@@ -2,8 +2,8 @@ package addPost;
 
 import Login.AdminUser;
 import Login.NormalUser;
-import Post.*;
-import Post.TextBoxComponent;
+import post.*;
+import post.TextBoxComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

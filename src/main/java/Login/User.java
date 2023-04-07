@@ -38,6 +38,9 @@ public class User {
     public boolean checkIfNamesAreIdentical(User user) {
         return this.name.equals(user.getName());
     }
+    public boolean checkIfNamesAreIdentical(String name) {
+        return this.name.equals(name);
+    }
     public boolean checkIfpasswordsAreIdentical(User user) {
         return this.password.equals(user.getPassword());
     }

@@ -1,9 +1,7 @@
-package Post;
+package post;
 
 import Login.NormalUser;
 import lombok.Getter;
-
-import java.util.ArrayList;
 
 public class Comment {
 

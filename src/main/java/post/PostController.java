@@ -1,4 +1,4 @@
-package Post;
+package post;
 
 
 import Login.AdminUser;

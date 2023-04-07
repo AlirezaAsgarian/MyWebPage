@@ -1,12 +1,10 @@
-package Post;
+package post;
 
 import Login.AdminUser;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Post {
     @Getter

@@ -1,5 +1,7 @@
 package Login;
 
+import util.Pair;
+
 public interface DataBaseApi {
     Boolean checkNormalUserIfExistWithThisName(User user);
 
@@ -8,5 +10,9 @@ public interface DataBaseApi {
 
     boolean isCorrectPasswordForThisUser(User user);
 
-    boolean checkAdminUserIfExistWithThisName(User user);
+    boolean checkAdminUserIfExistWithThisName(String name);
+
+    Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisName(String name);
+
+    boolean checkAdminUserIfAllowedWithThisName(String name);
 }

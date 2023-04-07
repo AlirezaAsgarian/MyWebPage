@@ -1,6 +1,6 @@
 package Login;
 
-import Post.ImageComponent;
+import post.ImageComponent;
 
 public class UserGraphics {
     public ImageComponent imageComponent;

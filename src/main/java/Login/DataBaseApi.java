@@ -17,4 +17,6 @@ public interface DataBaseApi {
     Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisName(String name);
 
     boolean checkAdminUserIfAllowedWithThisName(String name);
+
+    NormalUser getNormalUserByName(String name);
 }

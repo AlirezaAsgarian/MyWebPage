@@ -13,12 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import post.*;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
 import static org.mockito.Mockito.mock;
 
-public class GameInterpreterTestShowPost {
+public class CommandInterpreterTestShowPost {
     PostController postController;
     @Mock
     ImageComponent image;
@@ -33,6 +30,7 @@ public class GameInterpreterTestShowPost {
     AdminUser adminUser;
     @Mock
     LoginController loginController;
+    CommentController commentController;
     DataBaseApi dataBaseApi;
     @BeforeEach
     public void setup() {
@@ -44,11 +42,12 @@ public class GameInterpreterTestShowPost {
         this.textBox = mock(TextBoxComponent.class);
         this.video = mock(VideoComponent.class);
         this.postController = new PostController(this.postPresenter,this.dataBaseApi);
-        this.commandInterpretor = new CommandInterpretor(loginController,postController);
+        this.commentController = new CommentController(this.dataBaseApi);
+        this.commandInterpretor = new CommandInterpretor(loginController,postController,commentController);
     }
 
     @Test
-    public void showPostWithoutComment(){
+    public void addPost(){
         Response response = this.commandInterpretor.
                 interpret(new Command("addpost QXYZEE",this.image,this.textBox,this.video));
         AdminUser adminUser1 = this.dataBaseApi.getAdminUserByName("QXYZEE");
@@ -104,5 +103,6 @@ public class GameInterpreterTestShowPost {
         Assertions.assertEquals("comments closed successfully post with id "
                 + post.getId() + " hided successfully" , response.getResponse());
     }
+
 
 }

@@ -6,8 +6,9 @@ public class CentralEngine {
     Interpreter interpreter;
     boolean exit;
 
-    public CentralEngine(AppConsole appConsole) {
+    public CentralEngine(AppConsole appConsole,Interpreter interpreter) {
         this.appConsole = appConsole;
+        this.interpreter = interpreter;
         this.exit = false;
     }
 

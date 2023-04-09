@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import post.CommentController;
 import post.PostController;
 
 import static org.mockito.Mockito.mock;
@@ -22,13 +23,17 @@ public class CommandInterpretorAddingUserAndLoginTest {
     LoginController loginController;
     @Mock
     PostController postController;
+    @Mock
+    CommentController commentController;
     User user;
     @BeforeEach
     public void setDataBase(){
         this.postController = mock(PostController.class);
+        this.commentController = mock(CommentController.class);
         this.dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
         this.loginController = new LoginController(this.dataBaseApi);
-        this.commandInterpretor = new CommandInterpretor(this.loginController,this.postController);
+        this.commandInterpretor =
+                new CommandInterpretor(this.loginController,this.postController,this.commentController);
         this.user = new User();
     }
 
@@ -68,6 +73,8 @@ public class CommandInterpretorAddingUserAndLoginTest {
         Response response = this.commandInterpretor.interpret(new Command("adduser admin BWXA amir4639"));
         Assertions.assertEquals("BWXA added as admin successfully",response.getResponse());
     }
+
+
 
 
 }

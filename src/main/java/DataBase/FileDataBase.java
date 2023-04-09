@@ -139,4 +139,15 @@ public class FileDataBase implements DataBaseApi {
         }
         throw new RuntimeException();
     }
+
+    @Override
+    public NormalUser getNormalUserByName(String name) {
+        for (User u:
+                this.users) {
+            if(u.checkIfNamesAreIdentical(name) && u instanceof NormalUser nu){
+                return nu;
+            }
+        }
+        return null;
+    }
 }

@@ -1,9 +1,7 @@
 package appplay;
 
 import Login.LoginController;
-import post.Component;
-import post.Post;
-import post.PostController;
+import post.*;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -12,10 +10,13 @@ import java.util.List;
 public class CommandInterpretor implements Interpreter {
     LoginController loginController;
     PostController  postController;
+    CommentController commentController;
 
-    public CommandInterpretor(LoginController loginController, PostController postController) {
+    public CommandInterpretor(LoginController loginController, PostController postController,CommentController
+                              commentController) {
         this.loginController = loginController;
         this.postController = postController;
+        this.commentController = commentController;
     }
 
 
@@ -26,11 +27,17 @@ public class CommandInterpretor implements Interpreter {
             case "login" -> response = login(words);
             case "adduser" -> response = addUser(words);
             case "addpost" -> response = addPost(words,command.getComponents());
+            case "addcomment" -> response = addComment(words,command.getComponents());
             case "showpost" -> response = showPost(words);
             case "showcomments" -> response = showComments(words);
             case  "hidepost" -> response = hidePost(words);
         }
         return response;
+    }
+
+    private Response addComment(String[] words, List<Component> components) {
+        TextBoxComponent textBoxComponent = (TextBoxComponent) components.get(0);
+        return new Response(this.commentController.addCommentWithUserName(words[1],words[2],textBoxComponent,words[3]).getValue());
     }
 
     private Response hidePost(String[] words) {

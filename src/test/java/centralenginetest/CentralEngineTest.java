@@ -19,21 +19,17 @@ public class CentralEngineTest {
     @BeforeEach
     public void setUp(){
         this.appConsole = mock(AppConsole.class);
-
     }
 
     @Test
     public void testExitTest(){
         when(this.appConsole.getCommandFromUser()).thenReturn(new Command("exit"));
-        CentralEngine centralEngine = new CentralEngine(this.appConsole);
+        CentralEngine centralEngine = new CentralEngine(this.appConsole,null); // todo mock interpretor
         centralEngine.play();
         Assertions.assertTrue(centralEngine.isAppFinished());
     }
 
-    @Test
-    public void testInputLoginTest(){
 
-    }
 
 
 

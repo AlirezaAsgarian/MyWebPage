@@ -3,14 +3,16 @@ package post;
 import Login.AdminUser;
 import Login.DataBaseApi;
 import Login.NormalUser;
-import appplay.Response;
 import util.Pair;
 
 public class CommentController {
     DataBaseApi dataBaseApi;
+    PostPresenter postPresenter;
 
-    public CommentController(DataBaseApi dataBaseApi) {
+    public CommentController(PostPresenter postPresenter, DataBaseApi dataBaseApi)
+    {
         this.dataBaseApi = dataBaseApi;
+        this.postPresenter = postPresenter;
     }
 
     public Pair<Comment,String> addComment(TextBoxComponent textBox, Post post, NormalUser normalUser) {
@@ -47,6 +49,26 @@ public class CommentController {
             return new Pair<>(null,"no post exists with this id");
         }
         return this.addComment(textBox,post,nu);
+    }
+    public String hideCommentsByAdminNameeAndPostId(String postId, String adminName) {
+        AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
+        if(adminUser == null){
+            return "no admin exists with this name";
+        }
+        Post post = adminUser.getPostById(postId);
+        if (post == null){
+            return "no post exists with this id";
+        }
+        if (!post.isShowingComments()){
+            return "comments has already hided";
+        }
+        return this.hideComments(post);
+    }
+
+    private String hideComments(Post post) {
+        this.postPresenter.hideCommentsByPostID(post.getId());
+        post.setShowingComments(false);
+        return "comments of post " + post.getId() + " hided successfully";
     }
 
     private Post getPostById(String postId, String adminName) {

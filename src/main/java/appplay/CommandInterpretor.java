@@ -12,11 +12,10 @@ public class CommandInterpretor implements Interpreter {
     PostController  postController;
     CommentController commentController;
 
-    public CommandInterpretor(LoginController loginController, PostController postController,CommentController
-                              commentController) {
-        this.loginController = loginController;
-        this.postController = postController;
-        this.commentController = commentController;
+    public CommandInterpretor(CommandInterpeterFactory factory) {
+        this.loginController = factory.getLoginController();
+        this.postController = factory.getPostController();
+        this.commentController = factory.getCommentController();
     }
 
 
@@ -30,9 +29,14 @@ public class CommandInterpretor implements Interpreter {
             case "addcomment" -> response = addComment(words,command.getComponents());
             case "showpost" -> response = showPost(words);
             case "showcomments" -> response = showComments(words);
-            case  "hidepost" -> response = hidePost(words);
+            case "hidepost" -> response = hidePost(words);
+            case "hidecomments" -> response = hideComments(words);
         }
         return response;
+    }
+
+    private Response hideComments(String[] words) {
+       return new Response(this.commentController.hideCommentsByAdminNameeAndPostId(words[1],words[2]));
     }
 
     private Response addComment(String[] words, List<Component> components) {
@@ -41,7 +45,7 @@ public class CommandInterpretor implements Interpreter {
     }
 
     private Response hidePost(String[] words) {
-        return new Response(this.postController.hidePostByAdminNameeAndPostId(words[1],words[2]));
+        return new Response(this.postController.hidePostByAdminNameAndPostId(words[1],words[2]));
     }
 
     private Response showComments(String[] words) {
@@ -73,7 +77,10 @@ public class CommandInterpretor implements Interpreter {
     private Response login(String[] words) {
         switch (words[1]) {
             case "normal" -> {
-                return new Response(loginController.loginUser(words[3], words[4]));
+                return new Response(loginController.loginNormalUser(words[3], words[4]));
+            }
+            case "admin" -> {
+                return new Response(loginController.loginAdminUser(words[3], words[4]));
             }
         }
         return null;

@@ -4,6 +4,7 @@ import Login.AdminUser;
 import Login.DataBaseApi;
 import Login.LoginController;
 import appplay.Command;
+import appplay.CommandInterpetorNormalFactory;
 import appplay.CommandInterpretor;
 import appplay.Response;
 import logintests.MotherLogin;
@@ -36,18 +37,15 @@ public class CommandInterpreterTestShowPost {
     public void setup() {
         this.dataBaseApi = MotherLogin.getFileDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.adminUser = mock(AdminUser.class);
-        this.loginController = mock(LoginController.class);
         this.postPresenter = mock(PostPresenter.class);
         this.image = mock(ImageComponent.class);
         this.textBox = mock(TextBoxComponent.class);
         this.video = mock(VideoComponent.class);
-        this.postController = new PostController(this.postPresenter,this.dataBaseApi);
-        this.commentController = new CommentController(this.dataBaseApi);
-        this.commandInterpretor = new CommandInterpretor(loginController,postController,commentController);
+        this.commandInterpretor = new CommandInterpretor(new CommandInterpetorNormalFactory(this.dataBaseApi,this.postPresenter));
     }
 
     @Test
-    public void addPost(){
+    void addPost(){
         Response response = this.commandInterpretor.
                 interpret(new Command("addpost QXYZEE",this.image,this.textBox,this.video));
         AdminUser adminUser1 = this.dataBaseApi.getAdminUserByName("QXYZEE");
@@ -60,7 +58,7 @@ public class CommandInterpreterTestShowPost {
         Assertions.assertEquals(post.getComponents().get(2),this.video);
     }
     @Test
-    public void showPostAndItsComments(){
+    void showPostAndItsComments(){
         String adminName = "QXYZEE";
         this.commandInterpretor.
                 interpret(new Command("addpost " + adminName,this.image,this.textBox,this.video));
@@ -76,7 +74,7 @@ public class CommandInterpreterTestShowPost {
         Assertions.assertTrue(post.isShowingComments());
     }
     @Test
-    public void hidePostWithItsComments(){
+    void hidePostWithItsComments(){
         String adminName = "QXYZEE";
         this.commandInterpretor.
                 interpret(new Command("addpost " + adminName,this.image,this.textBox,this.video));
@@ -90,7 +88,7 @@ public class CommandInterpreterTestShowPost {
                 + post.getId() + " hided successfully" , response.getResponse());
     }
     @Test
-    public void hideCommentsOfShowingPost(){
+    void hideCommentsOfShowingPost(){
         String adminName = "QXYZEE";
         this.commandInterpretor.
                 interpret(new Command("addpost " + adminName,this.image,this.textBox,this.video));
@@ -100,7 +98,7 @@ public class CommandInterpreterTestShowPost {
         this.commandInterpretor.interpret(new Command("showcomments " + post.getId() + " " + adminName));
         Assertions.assertTrue(post.isShowingComments());
         Response response = this.commandInterpretor.interpret(new Command("hidecomments " + post.getId() + " " + adminName));
-        Assertions.assertEquals("comments closed successfully post with id "
+        Assertions.assertEquals("comments of post "
                 + post.getId() + " hided successfully" , response.getResponse());
     }
 

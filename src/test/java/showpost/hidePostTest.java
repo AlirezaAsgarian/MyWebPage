@@ -66,9 +66,11 @@ public class hidePostTest {
         String postId = post.getId();
         this.postController.showPostByAdminNameAndPostId(postId, adminUser.getName());
         Assertions.assertTrue(post.isShowing());
-        String postMessage = this.postController.hidePostByAdminNameeAndPostId(postId,adminUser.getName());
+        String postMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
         Assertions.assertEquals("post with id " + postId + " hided successfully", postMessage);
         Assertions.assertFalse(post.isShowing());
+        postMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
+        Assertions.assertEquals("post has already hided" , postMessage);
     }
     @Test
     void hidePostWithItsCommentssByAdminIdAndPostId(){
@@ -81,9 +83,11 @@ public class hidePostTest {
         this.postController.showPostComments(post,post.getComments());
         Assertions.assertTrue(post.isShowing());
         Assertions.assertTrue(post.isShowingComments());
-        String postMessage = this.postController.hidePostByAdminNameeAndPostId(postId,adminUser.getName());
+        String postMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
         Assertions.assertEquals("comments closed successfully post with id "
                 + postId + " hided successfully", postMessage);
         Assertions.assertFalse(post.isShowingComments());
+
     }
+
 }

@@ -40,7 +40,7 @@ public class LoginController {
     }
 
 
-    public String loginUser(String name,String password) {
+    public String loginNormalUser(String name, String password) {
         Pair<String,NormalUser> messageXuser = validateNameAndPassword(name,password);
         String message = messageXuser.getKey();
         if(!message.equals("ok")){
@@ -77,14 +77,31 @@ public class LoginController {
     }
 
     private boolean checkAdminUserIfExistWithThisName(User user) {
-       return dataBaseApi.checkAdminUserIfExistWithThisName(user.getName());
+        return this.dataBaseApi.checkAdminUserIfExistWithThisName(user.getName()).getKey();
     }
+
+    public String  loginAdminUser(String name, String password){
+        Pair<Boolean,AdminUser> isExistXuser = adminUserExistsWithThisName(name);
+        boolean isExistsNormalUserWithThisName = isExistXuser.getKey();
+        if(!isExistsNormalUserWithThisName){
+            return "no admin user exists with this name";
+        }
+        AdminUser loggingUser = isExistXuser.getValue();
+        if(!passwordIsCorrect(loggingUser,password)){
+            return "password is wrong";
+        }
+        // login
+        return loggingUser.getName() + " logged in successfully";
+    }
+
+
+
 
     public String tryAddingAdminUser(String name, String password,List<Post> posts) {
         if(!adminUserIsAllowedToAdd(name)){
              return "alirezaAsgarian doesn't allow to this guy :)";
         }
-        if(adminUserExistsWithThisName(name)){
+        if(adminUserExistsWithThisName(name).getKey()){
             return "user exists with this name";
         }
 
@@ -96,7 +113,7 @@ public class LoginController {
         return this.dataBaseApi.checkAdminUserIfAllowedWithThisName(name);
     }
 
-    private boolean adminUserExistsWithThisName(String name) {
+    private Pair<Boolean,AdminUser> adminUserExistsWithThisName(String name) {
         return this.dataBaseApi.checkAdminUserIfExistWithThisName(name);
     }
 }

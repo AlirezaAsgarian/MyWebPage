@@ -1,9 +1,12 @@
 package appplay;
 
+import lombok.Setter;
+
 public class CentralEngine {
 
     AppConsole appConsole;
     Interpreter interpreter;
+    @Setter
     boolean exit;
 
     public CentralEngine(AppConsole appConsole,Interpreter interpreter) {
@@ -14,14 +17,15 @@ public class CentralEngine {
 
     public void play() {
         while (!exit){
-           execute(appConsole.getCommandFromUser());
+           Response response = execute(appConsole.getCommandFromUser());
+           this.appConsole.showResponse(response);
         }
     }
 
     public Response execute(Command command){
         if(command.getCommand().equals("exit")){
             this.exit = true;
-            return new Response("game ended");
+            return new Response("app finished");
         }else {
            return interpreter.interpret(command);
         }
@@ -30,4 +34,5 @@ public class CentralEngine {
     public boolean isAppFinished() {
         return this.exit;
     }
+
 }

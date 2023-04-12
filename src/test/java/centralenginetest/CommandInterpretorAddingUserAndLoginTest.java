@@ -4,6 +4,7 @@ import Login.DataBaseApi;
 import Login.LoginController;
 import Login.User;
 import appplay.Command;
+import appplay.CommandInterpetorNormalFactory;
 import appplay.CommandInterpretor;
 import appplay.Response;
 import logintests.MotherLogin;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import post.CommentController;
 import post.PostController;
+import post.PostPresenter;
 
 import static org.mockito.Mockito.mock;
 
@@ -22,18 +24,14 @@ public class CommandInterpretorAddingUserAndLoginTest {
     DataBaseApi dataBaseApi;
     LoginController loginController;
     @Mock
-    PostController postController;
-    @Mock
-    CommentController commentController;
+    PostPresenter postPresenter;
     User user;
     @BeforeEach
     public void setDataBase(){
-        this.postController = mock(PostController.class);
-        this.commentController = mock(CommentController.class);
+        this.postPresenter = mock(PostPresenter.class);
         this.dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
-        this.loginController = new LoginController(this.dataBaseApi);
         this.commandInterpretor =
-                new CommandInterpretor(this.loginController,this.postController,this.commentController);
+                new CommandInterpretor(new CommandInterpetorNormalFactory(this.dataBaseApi,this.postPresenter));
         this.user = new User();
     }
 

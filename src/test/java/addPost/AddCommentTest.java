@@ -29,6 +29,8 @@ class AddCommentTest {
     AdminUser adminUser;
     @Mock
     DataBaseApi dataBaseApi;
+    @Mock
+    PostPresenter postPresenter;
     @BeforeEach
     public void setup() {
         this.textBox = mock(TextBoxComponent.class);
@@ -36,7 +38,8 @@ class AddCommentTest {
         this.post = mock(Post.class);
         this.adminUser = mock(AdminUser.class);
         this.dataBaseApi = mock(DataBaseApi.class);
-        this.commentController = new CommentController(this.dataBaseApi);
+        this.postPresenter = mock(PostPresenter.class);
+        this.commentController = new CommentController(this.postPresenter,this.dataBaseApi);
     }
     @Test
      void canAddingTextBoxToComment(){

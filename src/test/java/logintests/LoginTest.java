@@ -47,13 +47,13 @@ public class LoginTest {
         this.user = new AdminUser("ali","password",new ArrayList<>());
         this.dataBaseApi.addUser(this.user);
         String loginMessage = this.loginController.loginAdminUser(this.user.getName(),this.user.getPassword());
-        Assertions.assertEquals("admin logged in successfully", loginMessage);
+        Assertions.assertEquals("ali logged in as admin successfully", loginMessage);
     }
     @Test
     public void loginAdminUnsuccessfullyHoweverNormalUserWithThisNameExists(){
         this.user = new AdminUser("ali","password",new ArrayList<>());
         String loginMessage = this.loginController.loginAdminUser(this.user.getName(),this.user.getPassword());
-        Assertions.assertEquals("no admin exists with this name", loginMessage);
+        Assertions.assertEquals("no admin user exists with this name", loginMessage);
     }
 
 }

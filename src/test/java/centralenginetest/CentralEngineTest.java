@@ -96,7 +96,7 @@ public class CentralEngineTest {
         this.centralEngine.play();
         Assertions.assertEquals("no admin user exists with this name\n" +
                         adminUser.getName() + " added as admin successfully\n" +
-                        "BBEX logged in successfully\n" +
+                        "BBEX logged in as admin successfully\n" +
                         "app finished\n",
                 this.baos.toString());
     }
@@ -111,7 +111,7 @@ public class CentralEngineTest {
         String[] results = baos.toString().split("\\r?\\n");
         String postId = results[2].split("\\s+")[3];
         Assertions.assertEquals(adminUser.getName() + " added as admin successfully\n" +
-                        "BBEX logged in successfully\n" +
+                        "BBEX logged in as admin successfully\n" +
                         "post with id " + postId + " created and added successfully\n" +
                         "app finished\n",
                 this.baos.toString());
@@ -128,7 +128,7 @@ public class CentralEngineTest {
         addStringCommandToAppConsole("showpost " + postId + " " + adminUser.getName(), "exit");
         this.centralEngine.play();
         Assertions.assertEquals(adminUser.getName() + " added as admin successfully\n" +
-                        "BBEX logged in successfully\n" +
+                        "BBEX logged in as admin successfully\n" +
                         "post with id " + postId + " created and added successfully\n" +
                         "app finished\n" +
                         "text component\n" +
@@ -146,7 +146,7 @@ public class CentralEngineTest {
         addStringCommandToAppConsole("hidepost " + postId + " " + adminUser.getName(), "exit");
         this.centralEngine.play();
         Assertions.assertEquals(adminUser.getName() + " added as admin successfully\n" +
-                        "BBEX logged in successfully\n" +
+                        "BBEX logged in as admin successfully\n" +
                         "post with id " + postId + " created and added successfully\n" +
                         "app finished\n" +
                         "text component\n" +
@@ -171,7 +171,7 @@ public class CentralEngineTest {
         addStringCommandToAppConsole("hidecomments " + postId + " " + adminUser.getName(), "exit");
         this.centralEngine.play();
         Assertions.assertEquals(adminUser.getName() + " added as admin successfully\n" +
-                        "BBEX logged in successfully\n" +
+                        "BBEX logged in as admin successfully\n" +
                         "post with id " + postId + " created and added successfully\n" +
                         "app finished\n" +
                         "text component\n" +

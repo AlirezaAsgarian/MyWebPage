@@ -91,7 +91,7 @@ public class LoginController {
             return "password is wrong";
         }
         // login
-        return loggingUser.getName() + " logged in successfully";
+        return loggingUser.getName() + " logged in as admin successfully";
     }
 
 

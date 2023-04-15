@@ -9,4 +9,11 @@ public class TerminalConsole implements AppConsole{
     public Command getCommandFromUser() {
         return new Command(this.scanner.nextLine());
     }
+
+    @Override
+    public void showResponse(Response response) {
+        System.out.println(response.getResponse());
+    }
+
+
 }

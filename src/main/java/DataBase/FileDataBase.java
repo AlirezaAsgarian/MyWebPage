@@ -88,14 +88,14 @@ public class FileDataBase implements DataBaseApi {
     }
 
     @Override
-    public boolean checkAdminUserIfExistWithThisName(String user) {
+    public Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisName(String user) {
         for (User u:
                 this.users) {
-            if(u.checkIfNamesAreIdentical(user) && u instanceof AdminUser){
-                return true;
+            if(u.checkIfNamesAreIdentical(user) && u instanceof AdminUser au){
+                return new Pair<>(true,au);
             }
         }
-        return false;
+        return new Pair<>(false,null);
     }
 
     @Override

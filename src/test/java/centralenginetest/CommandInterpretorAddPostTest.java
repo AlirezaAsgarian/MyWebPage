@@ -5,6 +5,7 @@ import Login.DataBaseApi;
 import Login.LoginController;
 import Login.NormalUser;
 import appplay.Command;
+import appplay.CommandInterpetorNormalFactory;
 import appplay.CommandInterpretor;
 import appplay.Response;
 import logintests.MotherLogin;
@@ -34,10 +35,7 @@ public class CommandInterpretorAddPostTest {
         this.postPresenter = mock(PostPresenter.class);
         this.dataBaseApi = MotherLogin.getFileDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.textBox = mock(TextBoxComponent.class);
-        this.postController = new PostController(this.postPresenter,this.dataBaseApi);
-        this.loginController = new LoginController(this.dataBaseApi);
-        this.commentController = new CommentController(this.dataBaseApi);
-        this.commandInterpretor = new CommandInterpretor(this.loginController,this.postController,this.commentController);
+        this.commandInterpretor = new CommandInterpretor(new CommandInterpetorNormalFactory(this.dataBaseApi,this.postPresenter));
     }
 
     @Test

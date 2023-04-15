@@ -10,7 +10,7 @@ public interface DataBaseApi {
 
     boolean isCorrectPasswordForThisUser(User user);
 
-    boolean checkAdminUserIfExistWithThisName(String name);
+    Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisName(String name);
     AdminUser getAdminUserByName(String name);
 
 

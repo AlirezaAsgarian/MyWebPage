@@ -11,4 +11,6 @@ public interface PostPresenter {
     void hidePost(String post);
 
     void hideCommentsByPostID(String id);
+
+
 }

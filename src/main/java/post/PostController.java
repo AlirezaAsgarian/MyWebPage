@@ -41,6 +41,9 @@ public class PostController {
 
     public String hidePost(Post post) {
         String result = "";
+        if(!post.isShowing()){
+            return "post has already hided";
+        }
         if(post.isShowingComments()){
             this.postPresenter.hideCommentsByPostID(post.getId());
             post.setShowingComments(false);
@@ -69,7 +72,7 @@ public class PostController {
 
     }
 
-    public String hidePostByAdminNameeAndPostId(String postId, String adminName) {
+    public String hidePostByAdminNameAndPostId(String postId, String adminName) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
         if(adminUser == null){
             return "no admin exists with this name";
@@ -90,7 +93,12 @@ public class PostController {
         if (post == null){
             return "no post exists with this id";
         }
+        if(post.isShowingComments()){
+            return "comments has already shown";
+        }
         return this.showPostComments(post,post.getComments());
 
     }
+
+
 }

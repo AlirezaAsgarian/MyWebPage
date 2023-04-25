@@ -23,7 +23,7 @@ public class TestPostPresenter implements PostPresenter {
     public void showComments(List<Comment> comments) {
               for (Comment c :
               comments){
-                  System.out.println("commment text component : " + c.getOwner().getName());
+                  System.out.println("commment text component : " + c.getOwnerName());
               }
     }
 

@@ -2,6 +2,8 @@ package addPost;
 
 import Login.AdminUser;
 import Login.DataBaseApi;
+import logintests.MotherLogin;
+import lombok.Getter;
 import post.ImageComponent;
 import post.*;
 import org.junit.jupiter.api.Assertions;
@@ -34,11 +36,17 @@ public class AddPostTest {
     @BeforeEach
     public void setup() {
         this.image = mock(ImageComponent.class);
+        when(this.image.getType()).thenReturn(this.image.getClass().getSimpleName());
+        when(this.image.getPath()).thenReturn("image path");
         this.textBox = mock(TextBoxComponent.class);
+        when(this.textBox.getType()).thenReturn(this.textBox.getClass().getSimpleName());
+        when(this.textBox.getPath()).thenReturn("text path");
         this.video = mock(VideoComponent.class);
+        when(this.video.getType()).thenReturn(this.video.getClass().getSimpleName());
+        when(this.video.getPath()).thenReturn("video path");
         this.adminUser = mock(AdminUser.class);
         this.postPresenter = mock(PostPresenter.class);
-        this.dataBaseApi = mock(DataBaseApi.class);
+        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.postController = new PostController(this.postPresenter,this.dataBaseApi);
     }
     @Test
@@ -69,14 +77,16 @@ public class AddPostTest {
     @Test
     public void createPostByAdminUser(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
-        when(this.dataBaseApi.getAdminUserByName(adminUser.getName())).thenReturn(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), List.of(image,video,textBox));
         Post post = postXmessage.getKey();
         String postMessage = postXmessage.getValue();
-        Assertions.assertTrue(adminUser.getPosts().get(0).getComponents().get(0) instanceof ImageComponent);
-        Assertions.assertTrue(adminUser.getPosts().get(0).getComponents().get(1) instanceof VideoComponent);
-        Assertions.assertTrue(adminUser.getPosts().get(0).getComponents().get(2) instanceof TextBoxComponent);
-        Assertions.assertEquals(adminUser.getPosts().get(0).getOwner(),adminUser);
+        adminUser = this.dataBaseApi.getAdminUserByName(adminUser.getName());
+        Assertions.assertTrue(adminUser.getPostById(post.getId()).getComponents().get(0).getPath().equals("image path"));
+        Assertions.assertTrue(adminUser.getPostById(post.getId()).getComponents().get(1).getPath().equals("video path"));
+        Assertions.assertTrue(adminUser.getPostById(post.getId()).getComponents().get(2).getPath().equals("text path"));
+        Assertions.assertEquals(adminUser.getPostById(post.getId()).getOwnerName(),adminUser.getName());
         Assertions.assertEquals(postMessage,"post with id " + post.getId() + " created and added successfully");
     }
 }
+

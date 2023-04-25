@@ -14,7 +14,7 @@ public class AddingNewUserTest {
     AdminUser adminUser;
     @BeforeEach
     public void setDataBase(){
-        this.dataBaseApi = MotherLogin.getFileDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
+        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.loginController = new LoginController(dataBaseApi);
         this.user = new NormalUser("hassan","hassanpassword",new ArrayList<>());
         this.adminUser = new AdminUser("ali","amir4639",new ArrayList<>());
@@ -28,6 +28,13 @@ public class AddingNewUserTest {
       Assertions.assertEquals(existMessage,"user exists with this name");
     }
     @Test
+    void checkNameWrongNameForAddingUser(){
+        user.setName("wrongname");
+        user.setPasword("amir4639");
+        String existMessage = loginController.checkNormalUserIfExistWithThisName(user);
+        Assertions.assertEquals(existMessage,"no user exists with this name");
+    }
+    @Test
     void addNormalUserUnsuccssesfully(){
         user.setName("ali");
         user.setPasword("amir4639");
@@ -36,6 +43,7 @@ public class AddingNewUserTest {
     }
     @Test
     void addNormalUsersuccssesfully(){
+        this.dataBaseApi.deleteNormalUserByName("asghar");
         user.setName("asghar");
         user.setPasword("amir4639");
         String addUserMessage = loginController.tryAddingNormalUser(user.getName(),user.getPassword(),new ArrayList<>());
@@ -50,6 +58,7 @@ public class AddingNewUserTest {
     }
     @Test
     void addAdminUnsuccssessUserExsistsWithSameNameTest(){
+        this.dataBaseApi.deleteAdminUserByName("QXYZEE");
         adminUser.setName("QXYZEE");
         adminUser.setPasword("password");
         String addAdminMessage = loginController.tryAddingAdminUser(adminUser.getName(),adminUser.getPassword(),new ArrayList<>());
@@ -58,6 +67,7 @@ public class AddingNewUserTest {
 
     @Test
     void addAdminSuccessfullyTest(){
+        this.dataBaseApi.deleteAdminUserByName("BBEX");
         adminUser.setName("BBEX"); // allowed names : ["QXYZEE","BBEX","BWXA"]
         adminUser.setPasword("password");
         String addAdminMessage = loginController.tryAddingAdminUser(adminUser.getName(),adminUser.getPassword(),new ArrayList<>());

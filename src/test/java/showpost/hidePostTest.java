@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class hidePostTest {
     PostController postController;
@@ -33,13 +34,19 @@ public class hidePostTest {
     VideoComponent video;
     @BeforeEach
     public void setup() {
-        this.dataBaseApi = MotherLogin.getFileDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
+        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.image = mock(ImageComponent.class);
         this.textBox = mock(TextBoxComponent.class);
         this.video = mock(VideoComponent.class);
         this.adminUser = mock(AdminUser.class);
         this.postPresenter = mock(PostPresenter.class);
         this.postController = new PostController(this.postPresenter,this.dataBaseApi);
+        when(this.image.getType()).thenReturn(this.image.getClass().getSimpleName());
+        when(this.image.getPath()).thenReturn("image path");
+        when(this.textBox.getType()).thenReturn(this.textBox.getClass().getSimpleName());
+        when(this.textBox.getPath()).thenReturn("text path");
+        when(this.video.getType()).thenReturn(this.video.getClass().getSimpleName());
+        when(this.video.getPath()).thenReturn("video path");
     }
     @Test
     public void hidePost(){
@@ -60,33 +67,35 @@ public class hidePostTest {
     @Test
     void hidePostByAdminId() {
         AdminUser adminUser = new AdminUser("ali", "password", new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post, String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), List.of(image, video, textBox));
         Post post = postXmessage.getKey();
         String postId = post.getId();
-        this.postController.showPostByAdminNameAndPostId(postId, adminUser.getName());
+        post = this.postController.showPostByAdminNameAndPostId(postId, adminUser.getName()).getKey();
         Assertions.assertTrue(post.isShowing());
-        String postMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
+        Pair<Post,String> postXMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
+        String postMessage = postXMessage.getValue();
+        post = postXmessage.getKey();
         Assertions.assertEquals("post with id " + postId + " hided successfully", postMessage);
         Assertions.assertFalse(post.isShowing());
-        postMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
+        postMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName()).getValue();
         Assertions.assertEquals("post has already hided" , postMessage);
     }
     @Test
     void hidePostWithItsCommentssByAdminIdAndPostId(){
         AdminUser adminUser = new AdminUser("ali", "password", new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post, String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(),List.of(image, video, textBox));
         Post post = postXmessage.getKey();
         String postId = post.getId();
         this.postController.showPostByAdminNameAndPostId(postId, adminUser.getName());
-        this.postController.showPostComments(post,post.getComments());
+        post = this.postController.showCommentsOfPostByPostIdAndAdminName(postId,adminUser.getName()).getKey();
         Assertions.assertTrue(post.isShowing());
         Assertions.assertTrue(post.isShowingComments());
-        String postMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
+        Pair<Post,String> postXMessage = this.postController.hidePostByAdminNameAndPostId(postId,adminUser.getName());
         Assertions.assertEquals("comments closed successfully post with id "
-                + postId + " hided successfully", postMessage);
-        Assertions.assertFalse(post.isShowingComments());
+                + postId + " hided successfully", postXMessage.getValue());
+        Assertions.assertFalse(postXMessage.getKey().isShowingComments());
 
     }
 

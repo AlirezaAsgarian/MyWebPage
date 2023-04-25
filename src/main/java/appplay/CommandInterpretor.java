@@ -5,7 +5,9 @@ import post.*;
 import util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandInterpretor implements Interpreter {
     LoginController loginController;
@@ -36,7 +38,7 @@ public class CommandInterpretor implements Interpreter {
     }
 
     private Response hideComments(String[] words) {
-       return new Response(this.commentController.hideCommentsByAdminNameeAndPostId(words[1],words[2]));
+       return new Response(this.commentController.hideCommentsByAdminNameeAndPostId(words[1],words[2]).getValue());
     }
 
     private Response addComment(String[] words, List<Component> components) {
@@ -45,21 +47,22 @@ public class CommandInterpretor implements Interpreter {
     }
 
     private Response hidePost(String[] words) {
-        return new Response(this.postController.hidePostByAdminNameAndPostId(words[1],words[2]));
+        return new Response(this.postController.hidePostByAdminNameAndPostId(words[1],words[2]).getValue());
     }
 
     private Response showComments(String[] words) {
-        return new Response(this.postController.showCommentsOfPostByPostIdAndAdminName(words[1],words[2]));
+        return new Response(this.postController.showCommentsOfPostByPostIdAndAdminName(words[1],words[2]).getValue());
     }
 
     private Response showPost(String[] words) {
-        return new Response(postController.showPostByAdminNameAndPostId(words[1],words[2]));
+        return new Response(postController.showPostByAdminNameAndPostId(words[1],words[2]).getValue());
     }
 
     private Response addPost(String[] words, List<Component> components) {
         Pair<Post, String> postStringPair = this.postController.addPost(new ArrayList<>(), words[1], components);
         String responseMessage = postStringPair.getValue();
-        return new Response(responseMessage);
+        Post post = postStringPair.getKey();
+        return new Response(responseMessage,new HashMap<>(Map.of("post",post)));
     }
 
     private Response addUser(String[] words) {

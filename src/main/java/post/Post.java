@@ -12,7 +12,7 @@ public class Post {
     @Getter
     List<Comment> comments;
     @Getter
-    AdminUser owner;
+    String ownerName;
     @Getter
     String id;
     @Setter
@@ -24,7 +24,15 @@ public class Post {
 
     public Post(List<Component> components,List<Comment> comments,AdminUser owner,String id) {
         this.components = components;
-        this.owner = owner;
+        this.ownerName = owner.getName();
+        this.id = id;
+        this.isShowing = false;
+        this.isShowingComments = false;
+        this.comments = comments;
+    }
+    public Post(List<Component> components,List<Comment> comments,String ownername,String id) {
+        this.components = components;
+        this.ownerName = ownername;
         this.id = id;
         this.isShowing = false;
         this.isShowingComments = false;

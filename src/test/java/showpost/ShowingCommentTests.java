@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ShowingCommentTests {
     PostController postController;
@@ -34,7 +35,7 @@ public class ShowingCommentTests {
     VideoComponent video;
     @BeforeEach
     public void setup() {
-        this.dataBaseApi = MotherLogin.getFileDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
+        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.image = mock(ImageComponent.class);
         this.textBox = mock(TextBoxComponent.class);
         this.video = mock(VideoComponent.class);
@@ -42,6 +43,13 @@ public class ShowingCommentTests {
         this.postPresenter = mock(PostPresenter.class);
         this.postController = new PostController(this.postPresenter,this.dataBaseApi);
         this.commentController = new CommentController(this.postPresenter,this.dataBaseApi);
+        when(this.image.getType()).thenReturn(this.image.getClass().getSimpleName());
+        when(this.image.getPath()).thenReturn("image path");
+        when(this.textBox.getType()).thenReturn(this.textBox.getClass().getSimpleName());
+        when(this.textBox.getPath()).thenReturn("text path");
+        when(this.video.getType()).thenReturn(this.video.getClass().getSimpleName());
+        when(this.video.getPath()).thenReturn("video path");
+
     }
     @Test
     public void showPostAndShowItsComments(){
@@ -62,22 +70,27 @@ public class ShowingCommentTests {
     @Test
     void showCommentsOfPostByAdminNameAndPostId(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(),adminUser.getName(), List.of(image,video,textBox));
         Post post = postXmessage.getKey();
         String postId = post.getId();
-        String postMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName());
-        Assertions.assertTrue(adminUser.getPosts().get(0).isShowing());
-        Assertions.assertFalse(adminUser.getPosts().get(0).isShowingComments());
+        String postMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName()).getValue();
+        adminUser = this.dataBaseApi.getAdminUserByName(adminUser.getName());
+        Assertions.assertTrue(adminUser.getPostById(post.getId()).isShowing());
+        Assertions.assertFalse(adminUser.getPostById(post.getId()).isShowingComments());
         Assertions.assertEquals("post with id " + postId + " is showing successfully",postMessage);
-        postMessage = this.postController.showCommentsOfPostByPostIdAndAdminName(postId,adminUser.getName());
+        postXmessage = this.postController.showCommentsOfPostByPostIdAndAdminName(postId,adminUser.getName());
+        postMessage = postXmessage.getValue(); post = postXmessage.getKey();
         Assertions.assertTrue(post.isShowingComments());
         Assertions.assertEquals("comments of post " + postId + " is showing successfully",postMessage);
-        postMessage = this.postController.showCommentsOfPostByPostIdAndAdminName(postId,adminUser.getName());
+        postXmessage = this.postController.showCommentsOfPostByPostIdAndAdminName(postId,adminUser.getName());
+        postMessage = postXmessage.getValue(); post = postXmessage.getKey();
         Assertions.assertEquals("comments has already shown",postMessage);
-        String hideCommentMessage = this.commentController.hideCommentsByAdminNameeAndPostId(postId,adminUser.getName());
+        postXmessage = this.commentController.hideCommentsByAdminNameeAndPostId(postId,adminUser.getName());
+        String hideCommentMessage = postXmessage.getValue(); post = postXmessage.getKey();
         Assertions.assertEquals("comments of post " + postId + " hided successfully",hideCommentMessage);
-        hideCommentMessage = this.commentController.hideCommentsByAdminNameeAndPostId(postId,adminUser.getName());
+        Pair<Post,String> hideCommentXMessage = this.commentController.hideCommentsByAdminNameeAndPostId(postId,adminUser.getName());
+        hideCommentMessage = hideCommentXMessage.getValue();
         Assertions.assertEquals("comments has already hided",hideCommentMessage);
         Assertions.assertFalse(post.isShowingComments());
         Assertions.assertTrue(post.isShowing());

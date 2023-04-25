@@ -25,9 +25,10 @@ public class CommentController {
     }
 
 
-    private static void addCommentToPostAndItsSender(Post post, NormalUser normalUser, Comment comment) {
+    private void addCommentToPostAndItsSender(Post post, NormalUser normalUser, Comment comment) {
         post.getComments().add(comment);
         normalUser.getComments().add(comment);
+        this.dataBaseApi.addComment(comment);
     }
 
     private static Comment createComment(TextBoxComponent textBox, Post post, NormalUser normalUser) {
@@ -50,24 +51,25 @@ public class CommentController {
         }
         return this.addComment(textBox,post,nu);
     }
-    public String hideCommentsByAdminNameeAndPostId(String postId, String adminName) {
+    public Pair<Post,String> hideCommentsByAdminNameeAndPostId(String postId, String adminName) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
         if(adminUser == null){
-            return "no admin exists with this name";
+            return new Pair<>(null,"no admin exists with this name");
         }
         Post post = adminUser.getPostById(postId);
         if (post == null){
-            return "no post exists with this id";
+            return new Pair<>(null,"no post exists with this id");
         }
         if (!post.isShowingComments()){
-            return "comments has already hided";
+            return new Pair<>(null,"comments has already hided");
         }
-        return this.hideComments(post);
+        return new Pair<>(post,this.hideComments(post));
     }
 
     private String hideComments(Post post) {
         this.postPresenter.hideCommentsByPostID(post.getId());
         post.setShowingComments(false);
+        this.dataBaseApi.setShowingComment("false",post.getId());
         return "comments of post " + post.getId() + " hided successfully";
     }
 

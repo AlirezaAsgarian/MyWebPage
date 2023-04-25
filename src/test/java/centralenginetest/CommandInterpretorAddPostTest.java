@@ -33,7 +33,7 @@ public class CommandInterpretorAddPostTest {
     @BeforeEach
     void setup(){
         this.postPresenter = mock(PostPresenter.class);
-        this.dataBaseApi = MotherLogin.getFileDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
+        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.textBox = mock(TextBoxComponent.class);
         this.commandInterpretor = new CommandInterpretor(new CommandInterpetorNormalFactory(this.dataBaseApi,this.postPresenter));
     }

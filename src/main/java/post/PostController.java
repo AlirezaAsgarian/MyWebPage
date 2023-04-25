@@ -21,12 +21,14 @@ public class PostController {
     public String showPost(Post post) {
         postPresenter.showPost(post.getComponents());
         post.setShowing(true);
+        this.dataBaseApi.setPostShowing("true",post.getId());
         return "post with id " + post.getId() + " is showing successfully";
     }
+
     public Pair<Post,String> addPost(List<Comment> comments, String name, List<Component> components) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(name);
         Post post = new Post(components,comments,adminUser, UUID.randomUUID().toString());
-        adminUser.addPost(post);
+        this.dataBaseApi.addPost(post);
         return new Pair<Post, String>(post,"post with id " + post.getId() + " created and added successfully");
     }
 
@@ -36,6 +38,7 @@ public class PostController {
         }
         this.postPresenter.showComments(comments);
         post.setShowingComments(true);
+        this.dataBaseApi.setShowingComment("true",post.getId());
         return "comments of post " + post.getId() + " is showing successfully";
     }
 
@@ -47,56 +50,58 @@ public class PostController {
         if(post.isShowingComments()){
             this.postPresenter.hideCommentsByPostID(post.getId());
             post.setShowingComments(false);
+            this.dataBaseApi.setShowingComment("false",post.getId());
             result += "comments closed successfully ";
         }
         this.postPresenter.hidePost(post.getId());
         post.setShowing(false);
+        this.dataBaseApi.setPostShowing("false",post.getId());
         result += "post with id " + post.getId() + " hided successfully";
         return result;
     }
 
 
-    public String showPostByAdminNameAndPostId(String postId, String adminName) {
+    public Pair<Post,String> showPostByAdminNameAndPostId(String postId, String adminName) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
         if(adminUser == null){
-            return "no admin exists with this name";
+            return new Pair<>(null,"no admin exists with this name");
         }
         Post post = adminUser.getPostById(postId);
         if (post == null){
-            return "no post exists with this id";
+            return new Pair<>(null,"no post exists with this id");
         }
         if (post.isShowing()){
-            return "post is already showing";
+            return new Pair<>(null,"post is already showing");
         }
-        return this.showPost(post);
+        return new Pair<>(post,this.showPost(post));
 
     }
 
-    public String hidePostByAdminNameAndPostId(String postId, String adminName) {
+    public Pair<Post,String> hidePostByAdminNameAndPostId(String postId, String adminName) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
         if(adminUser == null){
-            return "no admin exists with this name";
+            return new Pair<>(null,"no admin exists with this name");
         }
         Post post = adminUser.getPostById(postId);
         if (post == null){
-            return "no post exists with this id";
+            return new Pair<>(null,"no post exists with this id");
         }
-        return this.hidePost(post);
+        return new Pair<>(post,this.hidePost(post));
     }
 
-    public String showCommentsOfPostByPostIdAndAdminName(String postId, String adminName) {
+    public Pair<Post,String> showCommentsOfPostByPostIdAndAdminName(String postId, String adminName) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
         if(adminUser == null){
-            return "no admin exists with this name";
+            return new Pair<>(null,"no admin exists with this name");
         }
         Post post = adminUser.getPostById(postId);
         if (post == null){
-            return "no post exists with this id";
+            return new Pair<>(null,"no post exists with this id");
         }
         if(post.isShowingComments()){
-            return "comments has already shown";
+            return new Pair<>(null,"comments has already shown");
         }
-        return this.showPostComments(post,post.getComments());
+        return new Pair<>(post,this.showPostComments(post,post.getComments()));
 
     }
 

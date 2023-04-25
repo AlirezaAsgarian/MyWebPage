@@ -7,6 +7,8 @@ import Login.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import post.Comment;
+import post.Post;
 import util.Pair;
 
 import java.io.File;
@@ -20,8 +22,12 @@ import java.util.List;
 public class FileDataBase implements DataBaseApi {
 
     List<User> users;
+    List<Post> posts;
+    List<Comment> comments;
 
-    public FileDataBase(List<User> users)  {
+    public FileDataBase(List<User> users,List<Post> posts,List<Comment> comments)  {
+        this.posts = posts;
+        this.comments = comments;
         this.users = (List<User>) readFromGson(getGsonFile("users.txt"),new TypeToken<List<User>>() {}.getType());
         if(this.users == null)
             this.users = new ArrayList<>(users);
@@ -71,21 +77,19 @@ public class FileDataBase implements DataBaseApi {
         return false;
     }
 
-
-
     @Override
-    public void addUser(User user) {
+    public void addNormalUser(User user) {
         this.users.add(user);
     }
 
     @Override
-    public boolean isCorrectPasswordForThisUser(User user) {
-        User dataBaseUser = findUserByName(user);
-        if(user.checkIfpasswordsAreIdentical(dataBaseUser)){
-            return true;
-        }
-        return false;
+    public void addAdminUser(User user) {
+        this.users.add(user);
     }
+
+
+
+
 
     @Override
     public Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisName(String user) {
@@ -149,5 +153,62 @@ public class FileDataBase implements DataBaseApi {
             }
         }
         return null;
+    }
+
+    @Override
+    public void addPost(Post post) {
+         this.posts.add(post);
+         AdminUser adminUser = this.getAdminUserByName(post.getOwnerName());
+         adminUser.getPosts().add(post);
+    }
+
+    @Override
+    public void addComment(Comment comment) {
+      this.comments.add(comment);
+    }
+
+    @Override
+    public void setPostShowing(String bool, String postId) {
+        Post post = getPostById(postId);
+        if(bool.equals("true")) {
+            post.setShowing(true);
+        }else {
+            post.setShowing(false);
+        }
+    }
+
+    private Post getPostById(String postId) {
+        for (Post post:
+             this.posts) {
+         if(post.getId().equals(postId)){
+             return post;
+         }
+        }
+        return null;
+    }
+
+    @Override
+    public void setShowingComment(String bool, String id) {
+        Post post = getPostById(id);
+        if(bool.equals("true")) {
+            post.setShowingComments(true);
+        }else {
+            post.setShowingComments(false);
+        }
+    }
+
+    @Override
+    public void deleteNormalUserByName(String name) {
+        for (User us:
+             this.users) {
+            if(us instanceof NormalUser && us.getName().equals(name)){
+                this.users.remove(us);
+            }
+        }
+    }
+
+    @Override
+    public void deleteAdminUserByName(String bbex) {
+
     }
 }

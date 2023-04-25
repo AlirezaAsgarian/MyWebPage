@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ShowingPostTest {
     PostController postController;
@@ -33,13 +34,19 @@ public class ShowingPostTest {
     VideoComponent video;
     @BeforeEach
     public void setup() {
-        this.dataBaseApi = MotherLogin.getFileDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
+        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.image = mock(ImageComponent.class);
         this.textBox = mock(TextBoxComponent.class);
         this.video = mock(VideoComponent.class);
         this.adminUser = mock(AdminUser.class);
         this.postPresenter = mock(PostPresenter.class);
         this.postController = new PostController(this.postPresenter,this.dataBaseApi);
+        when(this.image.getType()).thenReturn(this.image.getClass().getSimpleName());
+        when(this.image.getPath()).thenReturn("image path");
+        when(this.textBox.getType()).thenReturn(this.textBox.getClass().getSimpleName());
+        when(this.textBox.getPath()).thenReturn("text path");
+        when(this.video.getType()).thenReturn(this.video.getClass().getSimpleName());
+        when(this.video.getPath()).thenReturn("video path");
     }
 
     @Test
@@ -62,57 +69,61 @@ public class ShowingPostTest {
     @Test
     void showPostByAdminNameAndPostId(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(),adminUser.getName(),List.of(image,video,textBox));
         String postId = postXmessage.getKey().getId();
-        String postMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName());
-        Assertions.assertTrue(adminUser.getPosts().get(0).isShowing());
-        Assertions.assertFalse(adminUser.getPosts().get(0).isShowingComments());
+        String postMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName()).getValue();
+        adminUser = this.dataBaseApi.getAdminUserByName(adminUser.getName());
+        Assertions.assertTrue(adminUser.getPostById(postId).isShowing());
+        Assertions.assertFalse(adminUser.getPostById(postId).isShowingComments());
         Assertions.assertEquals("post with id " + postId + " is showing successfully",postMessage);
     }
 
     @Test
     void showPostByAdminNameAndPostIdAndItsAlreadyShowing(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post,String> postXmessage = this.postController
                 .addPost(new ArrayList<Comment>(),adminUser.getName(),List.of(image,video,textBox));
         Post post = postXmessage.getKey();
         String postId = post.getId();
-        post.setShowing(true);
-        String postMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName());
+        this.postController.showPost(post);
+        String postMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName()).getValue();
         Assertions.assertEquals("post is already showing",postMessage);
     }
 
     @Test
     void showPostByAdminButPostIdDoesntExists(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
-        String postMessage = this.postController.showPostByAdminNameAndPostId("",adminUser.getName());
+        this.dataBaseApi.addAdminUser(adminUser);
+        String postMessage = this.postController.showPostByAdminNameAndPostId("",adminUser.getName()).getValue();
         Assertions.assertEquals("no post exists with this id",postMessage);
     }
     @Test
     void showPostByAdminButAdminNameDoesntExists() {
         AdminUser adminUser = new AdminUser("ali", "password", new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post, String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), List.of(image, video, textBox));
         String postId = postXmessage.getKey().getId();
-        String postMessage = this.postController.showPostByAdminNameAndPostId(postId, "wrong name");
-        Assertions.assertEquals("no admin exists with this name", postMessage);
+        Pair<Post, String> postXMessage = this.postController.showPostByAdminNameAndPostId(postId, "wrong name");
+        Assertions.assertEquals("no admin exists with this name", postXMessage.getValue());
     }
 
     @Test
     void showCommentsOfPostByAdminNameAndPostId(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi.addUser(adminUser);
+        this.dataBaseApi.addAdminUser(adminUser);
         Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(),adminUser.getName(),List.of(image,video,textBox));
         String postId = postXmessage.getKey().getId();
-        String postMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName());
-        Assertions.assertTrue(adminUser.getPosts().get(0).isShowing());
-        Assertions.assertFalse(adminUser.getPosts().get(0).isShowingComments());
+        Pair<Post,String> postXMessage = this.postController.showPostByAdminNameAndPostId(postId,adminUser.getName());
+        String postMessage = postXMessage.getValue();
+        adminUser = this.dataBaseApi.getAdminUserByName("ali");
+        Assertions.assertTrue(adminUser.getPostById(postId).isShowing());
+        Assertions.assertFalse(adminUser.getPostById(postId).isShowingComments());
         Assertions.assertEquals("post with id " + postId + " is showing successfully",postMessage);
-        postMessage = this.postController.showCommentsOfPostByPostIdAndAdminName(postId,adminUser.getName());
-        Assertions.assertTrue(postXmessage.getKey().isShowingComments());
+        postMessage = this.postController.showCommentsOfPostByPostIdAndAdminName(postId,adminUser.getName()).getValue();
+        adminUser = this.dataBaseApi.getAdminUserByName("ali");
+        Assertions.assertTrue(adminUser.getPostById(postId).isShowingComments());
         Assertions.assertEquals("comments of post " + postId + " is showing successfully",postMessage);
     }
 

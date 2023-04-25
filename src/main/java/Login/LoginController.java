@@ -28,7 +28,7 @@ public class LoginController {
         if(userExistsWithThisName(name).getKey()){
             return "user exists with this name";
         }
-        dataBaseApi.addUser(new NormalUser(name,password,comments));
+        dataBaseApi.addNormalUser(new NormalUser(name,password,comments));
         return name + " added successfully";
     }
 
@@ -105,7 +105,7 @@ public class LoginController {
             return "user exists with this name";
         }
 
-        dataBaseApi.addUser(new AdminUser(name,password,posts));
+        dataBaseApi.addAdminUser(new AdminUser(name,password,posts));
         return name + " added as admin successfully";
     }
 

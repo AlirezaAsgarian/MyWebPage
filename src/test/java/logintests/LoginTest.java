@@ -45,7 +45,7 @@ public class LoginTest {
     @Test
     public void loginAdminUser(){
         this.user = new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi.addUser(this.user);
+        this.dataBaseApi.addAdminUser(this.user);
         String loginMessage = this.loginController.loginAdminUser(this.user.getName(),this.user.getPassword());
         Assertions.assertEquals("ali logged in as admin successfully", loginMessage);
     }

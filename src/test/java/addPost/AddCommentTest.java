@@ -1,9 +1,11 @@
 package addPost;
 
+import DataBase.MySqlDataBase;
 import Login.AdminUser;
 import Login.DataBaseApi;
 import Login.NormalUser;
 import appplay.Response;
+import logintests.MotherLogin;
 import post.*;
 import post.TextBoxComponent;
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +15,8 @@ import org.mockito.Mock;
 import util.Pair;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -54,8 +58,8 @@ class AddCommentTest {
         Pair<Comment,String> commentXmessage = commentController.addComment(this.textBox,post1,normalUser1);
         Comment comment = commentXmessage.getKey();
         String message = commentXmessage.getValue();
-        Assertions.assertEquals(normalUser1.getComments().get(0).getOwner(),normalUser1);
-        Assertions.assertEquals(normalUser1.getComments().get(0).getCommentsPost(),post1);
+        Assertions.assertEquals(normalUser1.getComments().get(0).getOwnerName(),normalUser1.getName());
+        Assertions.assertEquals(normalUser1.getComments().get(0).getCommentsPostId(),post1.getId());
         Assertions.assertEquals(post1.getComments().get(0),comment);
     }
     @Test
@@ -71,5 +75,7 @@ class AddCommentTest {
         Assertions.assertEquals("comment created successfully comment added succssessfully to post with id " +
                 post.getId(),message);
     }
+
+
 
 }

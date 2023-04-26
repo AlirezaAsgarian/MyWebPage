@@ -1,4 +1,4 @@
-package Login;
+package login.entities;
 
 import lombok.Getter;
 

@@ -1,7 +1,8 @@
-package post;
+package post.entity;
 
-import Login.NormalUser;
+import login.entities.NormalUser;
 import lombok.Getter;
+import post.boundries.TextBoxComponent;
 
 public class Comment {
 

@@ -1,11 +1,11 @@
 package logintests;
 
-import DataBase.FileDataBase;
-import DataBase.MySqlDataBase;
-import DataBase.QueryFormatterImpl;
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.NormalUser;
+import database.FileDataBase;
+import database.mysqlimpl.MySqlDataBase;
+import database.mysqlimpl.QueryFormatterImpl;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import login.entities.NormalUser;
 
 import java.util.ArrayList;
 

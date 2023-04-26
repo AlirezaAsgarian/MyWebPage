@@ -1,6 +1,10 @@
 package logintests;
 
-import Login.*;
+import database.boundries.DataBaseApi;
+import login.entities.AdminUser;
+import login.entities.NormalUser;
+import login.entities.User;
+import login.interactors.LoginController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

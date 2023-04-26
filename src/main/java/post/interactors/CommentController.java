@@ -1,8 +1,12 @@
-package post;
+package post.interactors;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.NormalUser;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import login.entities.NormalUser;
+import post.entity.Comment;
+import post.entity.Post;
+import post.boundries.PostPresenter;
+import post.boundries.TextBoxComponent;
 import util.Pair;
 
 public class CommentController {

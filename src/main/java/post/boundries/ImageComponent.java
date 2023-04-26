@@ -1,4 +1,5 @@
-package post;
+package post.boundries;
 
 public interface ImageComponent extends Component {
+
 }

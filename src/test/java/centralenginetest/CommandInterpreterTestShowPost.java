@@ -1,8 +1,8 @@
 package centralenginetest;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.LoginController;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import login.interactors.LoginController;
 import appplay.Command;
 import appplay.CommandInterpetorNormalFactory;
 import appplay.CommandInterpretor;
@@ -12,7 +12,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import post.*;
+import post.boundries.ImageComponent;
+import post.boundries.PostPresenter;
+import post.boundries.TextBoxComponent;
+import post.boundries.VideoComponent;
+import post.entity.Post;
+import post.interactors.CommentController;
+import post.interactors.PostController;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

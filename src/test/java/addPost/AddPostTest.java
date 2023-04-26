@@ -1,15 +1,16 @@
 package addPost;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
 import logintests.MotherLogin;
-import lombok.Getter;
-import post.ImageComponent;
-import post.*;
+import post.boundries.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import post.entity.Comment;
+import post.entity.Post;
+import post.interactors.PostController;
 import util.Pair;
 
 import java.util.ArrayList;

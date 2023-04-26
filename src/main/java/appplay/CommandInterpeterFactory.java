@@ -1,8 +1,8 @@
 package appplay;
 
-import Login.LoginController;
-import post.CommentController;
-import post.PostController;
+import login.interactors.LoginController;
+import post.interactors.CommentController;
+import post.interactors.PostController;
 
 public interface CommandInterpeterFactory {
 

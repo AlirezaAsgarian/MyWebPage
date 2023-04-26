@@ -1,8 +1,12 @@
-package post;
+package post.interactors;
 
 
-import Login.AdminUser;
-import Login.DataBaseApi;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import post.entity.Comment;
+import post.boundries.Component;
+import post.entity.Post;
+import post.boundries.PostPresenter;
 import util.Pair;
 
 import java.util.List;

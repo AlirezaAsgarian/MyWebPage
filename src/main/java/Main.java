@@ -1,16 +1,11 @@
-import DataBase.FileDataBase;
-import Login.LoginController;
+import database.FileDataBase;
 import appplay.CentralEngine;
 import appplay.CommandInterpetorNormalFactory;
 import appplay.CommandInterpretor;
 import appplay.TerminalConsole;
-import post.CommentController;
-import post.MockPostPresenter;
-import post.Post;
-import post.PostController;
+import post.boundries.MockPostPresenter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 

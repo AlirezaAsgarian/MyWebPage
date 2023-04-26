@@ -1,14 +1,20 @@
 package addPost;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.NormalUser;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import login.entities.NormalUser;
 import logintests.MotherLogin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import post.*;
+import post.boundries.Component;
+import post.boundries.PostPresenter;
+import post.boundries.TextBoxComponent;
+import post.entity.Comment;
+import post.entity.Post;
+import post.interactors.CommentController;
+import post.interactors.PostController;
 import util.Pair;
 
 import java.util.ArrayList;

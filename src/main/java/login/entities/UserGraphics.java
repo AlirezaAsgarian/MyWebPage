@@ -1,6 +1,6 @@
-package Login;
+package login.entities;
 
-import post.ImageComponent;
+import post.boundries.ImageComponent;
 
 public class UserGraphics {
     public ImageComponent imageComponent;

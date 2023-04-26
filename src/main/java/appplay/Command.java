@@ -2,7 +2,7 @@ package appplay;
 
 
 import lombok.Getter;
-import post.Component;
+import post.boundries.Component;
 
 import java.util.List;
 

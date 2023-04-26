@@ -1,14 +1,10 @@
 package appplay;
 
-import DataBase.FileDataBase;
-import Login.DataBaseApi;
-import Login.LoginController;
-import Login.User;
-import post.CommentController;
-import post.PostController;
-import post.PostPresenter;
-
-import java.util.List;
+import database.boundries.DataBaseApi;
+import login.interactors.LoginController;
+import post.interactors.CommentController;
+import post.interactors.PostController;
+import post.boundries.PostPresenter;
 
 public class CommandInterpetorNormalFactory implements CommandInterpeterFactory {
     DataBaseApi dataBaseApi;

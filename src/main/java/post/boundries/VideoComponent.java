@@ -1,4 +1,4 @@
-package post;
+package post.boundries;
 
 public interface VideoComponent extends Component{
 }

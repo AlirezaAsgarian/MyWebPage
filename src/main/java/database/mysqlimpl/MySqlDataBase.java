@@ -1,13 +1,13 @@
-package DataBase;
+package database.mysqlimpl;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.NormalUser;
-import Login.User;
-import post.Comment;
-import post.Component;
-import post.Post;
-import post.TestComponent;
+import database.boundries.DataBaseApi;
+import login.entities.AdminUser;
+import login.entities.NormalUser;
+import login.entities.User;
+import post.entity.Comment;
+import post.boundries.Component;
+import post.entity.Post;
+import post.boundries.TestComponent;
 import util.Pair;
 
 import java.sql.*;

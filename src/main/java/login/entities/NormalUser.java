@@ -1,8 +1,8 @@
-package Login;
+package login.entities;
 
-import post.Comment;
-import post.Post;
-import post.TextBoxComponent;
+import post.entity.Comment;
+import post.entity.Post;
+import post.boundries.TextBoxComponent;
 import lombok.Getter;
 
 import java.util.List;

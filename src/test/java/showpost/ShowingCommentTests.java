@@ -1,13 +1,17 @@
 package showpost;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
 import logintests.MotherLogin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import post.*;
+import post.boundries.*;
+import post.entity.Comment;
+import post.entity.Post;
+import post.interactors.CommentController;
+import post.interactors.PostController;
 import util.Pair;
 
 import java.util.ArrayList;

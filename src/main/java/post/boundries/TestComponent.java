@@ -1,6 +1,4 @@
-package post;
-
-import post.Component;
+package post.boundries;
 
 public class TestComponent implements Component {
     String path;

@@ -1,14 +1,14 @@
-package DataBase;
+package database;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.NormalUser;
-import Login.User;
+import database.boundries.DataBaseApi;
+import login.entities.AdminUser;
+import login.entities.NormalUser;
+import login.entities.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import post.Comment;
-import post.Post;
+import post.entity.Comment;
+import post.entity.Post;
 import util.Pair;
 
 import java.io.File;

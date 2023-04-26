@@ -1,22 +1,21 @@
 package addPost;
 
-import DataBase.MySqlDataBase;
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.NormalUser;
-import appplay.Response;
-import logintests.MotherLogin;
-import post.*;
-import post.TextBoxComponent;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import login.entities.NormalUser;
+import post.boundries.Component;
+import post.boundries.PostPresenter;
+import post.boundries.TextBoxComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import post.entity.Comment;
+import post.entity.Post;
+import post.interactors.CommentController;
 import util.Pair;
 
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

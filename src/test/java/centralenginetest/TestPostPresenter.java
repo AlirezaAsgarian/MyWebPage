@@ -1,6 +1,10 @@
 package centralenginetest;
 
-import post.*;
+import post.boundries.Component;
+import post.boundries.ImageComponent;
+import post.boundries.PostPresenter;
+import post.boundries.TextBoxComponent;
+import post.entity.Comment;
 
 import java.util.List;
 

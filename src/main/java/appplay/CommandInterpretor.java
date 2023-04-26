@@ -1,7 +1,11 @@
 package appplay;
 
-import Login.LoginController;
-import post.*;
+import login.interactors.LoginController;
+import post.boundries.Component;
+import post.boundries.TextBoxComponent;
+import post.entity.Post;
+import post.interactors.CommentController;
+import post.interactors.PostController;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -11,7 +15,7 @@ import java.util.Map;
 
 public class CommandInterpretor implements Interpreter {
     LoginController loginController;
-    PostController  postController;
+    PostController postController;
     CommentController commentController;
 
     public CommandInterpretor(CommandInterpeterFactory factory) {

@@ -1,7 +1,11 @@
-package Login;
+package login.interactors;
 
-import post.Comment;
-import post.Post;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import login.entities.NormalUser;
+import login.entities.User;
+import post.entity.Comment;
+import post.entity.Post;
 import util.Pair;
 
 import java.util.List;
@@ -81,7 +85,7 @@ public class LoginController {
     }
 
     public String  loginAdminUser(String name, String password){
-        Pair<Boolean,AdminUser> isExistXuser = adminUserExistsWithThisName(name);
+        Pair<Boolean, AdminUser> isExistXuser = adminUserExistsWithThisName(name);
         boolean isExistsNormalUserWithThisName = isExistXuser.getKey();
         if(!isExistsNormalUserWithThisName){
             return "no admin user exists with this name";

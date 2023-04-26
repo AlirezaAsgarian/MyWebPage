@@ -1,6 +1,6 @@
-package Login;
+package login.entities;
 
-import post.Post;
+import post.entity.Post;
 
 import lombok.Getter;
 

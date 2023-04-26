@@ -1,7 +1,10 @@
-package Login;
+package database.boundries;
 
-import post.Comment;
-import post.Post;
+import login.entities.AdminUser;
+import login.entities.NormalUser;
+import login.entities.User;
+import post.entity.Comment;
+import post.entity.Post;
 import util.Pair;
 
 public interface DataBaseApi {

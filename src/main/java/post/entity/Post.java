@@ -1,8 +1,9 @@
-package post;
+package post.entity;
 
-import Login.AdminUser;
+import login.entities.AdminUser;
 import lombok.Getter;
 import lombok.Setter;
+import post.boundries.Component;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package centralenginetest;
 
-import Login.AdminUser;
-import Login.DataBaseApi;
-import Login.NormalUser;
+import login.entities.AdminUser;
+import database.boundries.DataBaseApi;
+import login.entities.NormalUser;
 import appplay.*;
 import logintests.MotherLogin;
 import org.junit.jupiter.api.AfterEach;
@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import post.Component;
-import post.PostPresenter;
-import post.TextBoxComponent;
+import post.boundries.Component;
+import post.boundries.PostPresenter;
+import post.boundries.TextBoxComponent;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

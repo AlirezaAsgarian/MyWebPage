@@ -1,4 +1,6 @@
-package post;
+package post.boundries;
+
+import post.entity.Comment;
 
 import java.util.List;
 

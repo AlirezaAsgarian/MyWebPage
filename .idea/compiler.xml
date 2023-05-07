@@ -7,8 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MyWeb" />
+        <module name="CommandLineUI" />
+        <module name="Application" />
+        <module name="CommandLineMain" />
+        <module name="SpringUI" />
+        <module name="DataBase" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Main" target="18" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Application" options="-parameters" />
+      <module name="CommandLineMain" options="-parameters" />
+      <module name="CommandLineUI" options="-parameters" />
+      <module name="DataBase" options="-parameters" />
+      <module name="SpringUI" options="-parameters" />
+    </option>
   </component>
 </project>

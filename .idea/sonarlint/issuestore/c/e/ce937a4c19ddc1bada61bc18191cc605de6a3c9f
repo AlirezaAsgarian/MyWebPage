@@ -1,0 +1,15 @@
+
+`	java:S112+"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ
+h	java:S112Œ"FDefine and throw a dedicated exception instead of using a generic one.(¯åÕøÿÿÿÿ8ñ¬£÷0
+o
+java:S2293j"YReplace the type specification in this constructor call with the diamond operator ("<>").(àƒÄâ
+f	java:S117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(â±è°
+y
+java:S1488("^Immediately return this expression instead of assigning it to the temporary variable "reader".(ªÎïÁÿÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¹Ÿ¨€
+\	java:S8995"BDo something with the "boolean" value returned by "createNewFile".(Ğ’Íùÿÿÿÿ
+N	java:S1069"9Replace this use of System.out or System.err by a logger.(Àûå 
+\
+java:S1126T"AReplace this if-then-else statement by a single return statement.(é¥±ÿÿÿÿÿ
+\
+java:S1126s"AReplace this if-then-else statement by a single return statement.(ŞÓíŠúÿÿÿÿ

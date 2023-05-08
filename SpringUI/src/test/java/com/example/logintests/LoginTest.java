@@ -1,13 +1,10 @@
 package com.example.logintests;
 
 import com.example.springui.SpringUiApplication;
-import com.example.springui.services.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import login.entities.AdminUser;
 import login.entities.NormalUser;
-import login.interactors.LoginUsecase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import java.util.ArrayList;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 @SpringBootTest(classes = SpringUiApplication.class)
 public class LoginTest {

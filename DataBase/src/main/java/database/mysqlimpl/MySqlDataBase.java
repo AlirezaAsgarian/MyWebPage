@@ -266,11 +266,11 @@ public class MySqlDataBase implements DataBaseApi {
             if(comment.getTextBoxComponent() != null) {
                 query = queryFormatter.createInsertIntoQuery("commentTable",
                         List.of("ownername", "commentPostId", "textComponent"),
-                        List.of(comment.getOwnerName(), comment.getCommentsPostId(), comment.getTextBoxComponent().toString()));
+                        List.of(comment.getOwnerName(), comment.getPostId(), comment.getTextBoxComponent().toString()));
             }else {
                 query = queryFormatter.createInsertIntoQuery("commentTable",
                         List.of("ownername", "commentPostId"),
-                        List.of(comment.getOwnerName(), comment.getCommentsPostId()));
+                        List.of(comment.getOwnerName(), comment.getPostId()));
             }
             stm.execute(query);
         } catch (SQLException e) {

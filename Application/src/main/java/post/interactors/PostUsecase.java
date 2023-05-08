@@ -14,6 +14,5 @@ public interface PostUsecase {
     public String hidePost(Post post);
     public Pair<Post,String> showPostByAdminNameAndPostId(String postId, String adminName);
     public Pair<Post,String> hidePostByAdminNameAndPostId(String postId, String adminName);
-    public Pair<Post,String> showCommentsOfPostByPostIdAndAdminName(String postId, String adminName);
 
 }

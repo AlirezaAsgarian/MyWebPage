@@ -3,8 +3,8 @@ package org.example.concretetandfactories;
 import appplay.CommandInterpeterFactory;
 import database.boundries.DataBaseApi;
 import login.interactors.LoginInteractor;
-import post.interactors.CommentController;
-import post.interactors.PostController;
+import post.interactors.CommentInteractor;
+import post.interactors.PostInteractor;
 import post.boundries.PostPresenter;
 
 public class CommandInterpetorNormalFactory implements CommandInterpeterFactory {
@@ -22,12 +22,12 @@ public class CommandInterpetorNormalFactory implements CommandInterpeterFactory 
     }
 
     @Override
-    public PostController getPostController() {
-        return new PostController(postPresenter,dataBaseApi);
+    public PostInteractor getPostController() {
+        return new PostInteractor(postPresenter,dataBaseApi);
     }
 
     @Override
-    public CommentController getCommentController() {
-        return new CommentController(postPresenter,dataBaseApi);
+    public CommentInteractor getCommentController() {
+        return new CommentInteractor(postPresenter,dataBaseApi);
     }
 }

@@ -12,11 +12,11 @@ import util.Pair;
 import java.util.List;
 import java.util.UUID;
 
-public class PostController implements PostUsecase{
+public class PostInteractor implements PostUsecase{
     PostPresenter postPresenter;
     DataBaseApi dataBaseApi;
 
-    public PostController(PostPresenter postPresenter, DataBaseApi dataBaseApi) {
+    public PostInteractor(PostPresenter postPresenter, DataBaseApi dataBaseApi) {
         this.postPresenter = postPresenter;
         this.dataBaseApi = dataBaseApi;
     }
@@ -93,21 +93,7 @@ public class PostController implements PostUsecase{
         return new Pair<>(post,this.hidePost(post));
     }
 
-    public Pair<Post,String> showCommentsOfPostByPostIdAndAdminName(String postId, String adminName) {
-        AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
-        if(adminUser == null){
-            return new Pair<>(null,"no admin exists with this name");
-        }
-        Post post = adminUser.getPostById(postId);
-        if (post == null){
-            return new Pair<>(null,"no post exists with this id");
-        }
-        if(post.isShowingComments()){
-            return new Pair<>(null,"comments has already shown");
-        }
-        return new Pair<>(post,this.showPostComments(post,post.getComments()));
 
-    }
 
 
 }

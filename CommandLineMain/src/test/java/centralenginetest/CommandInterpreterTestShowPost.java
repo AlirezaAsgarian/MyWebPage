@@ -18,13 +18,13 @@ import post.boundries.PostPresenter;
 import post.boundries.TextBoxComponent;
 import post.boundries.VideoComponent;
 import post.entity.Post;
-import post.interactors.CommentController;
-import post.interactors.PostController;
+import post.interactors.CommentInteractor;
+import post.interactors.PostInteractor;
 
 import static org.mockito.Mockito.mock;
 
 public class CommandInterpreterTestShowPost {
-    PostController postController;
+    PostInteractor postInteractor;
     @Mock
     ImageComponent image;
     @Mock
@@ -38,7 +38,7 @@ public class CommandInterpreterTestShowPost {
     AdminUser adminUser;
     @Mock
     LoginInteractor loginInteractor;
-    CommentController commentController;
+    CommentInteractor commentInteractor;
     DataBaseApi dataBaseApi;
     @BeforeEach
     public void setup() {

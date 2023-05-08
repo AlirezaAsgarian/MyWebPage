@@ -17,6 +17,11 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import post.boundries.MockPostPresenter;
+import post.interactors.CommentInteractor;
+import post.interactors.CommentUsecase;
+import post.interactors.PostInteractor;
+import post.interactors.PostUsecase;
 
 import java.util.List;
 
@@ -29,13 +34,43 @@ public class WebConfig  {
     }
 
     @Bean
+    public PostUsecase getPostUseCase(){
+        return getPostInteractor();
+    }
+    @Bean
+    public CommentUsecase getCommentUseCase(){
+        return getCommentInteractor();
+    }
+
+    @Bean
+    public CommentInteractor getCommentInteractor() {
+        return new CommentInteractor(getPostPresenter(),getMysqlDataBase());
+    }
+
+    @Bean
+    public PostInteractor getPostInteractor(){
+        return new PostInteractor(getPostPresenter(),getMysqlDataBase());
+    }
+
+    @Bean
+    public  MockPostPresenter getPostPresenter() {
+        return new MockPostPresenter();
+    }
+
+    @Bean
     public LoginUsecase getLoginUseCase(){
         return getLoginInteractor();
     }
 
     @Bean
     public LoginInteractor getLoginInteractor(){
-        return new LoginInteractor(new MySqlDataBase(new QueryFormatterImpl()));
+        return new LoginInteractor(getMysqlDataBase());
+    }
+
+
+    @Bean
+    public MySqlDataBase getMysqlDataBase(){
+        return new MySqlDataBase(new QueryFormatterImpl());
     }
 
 }

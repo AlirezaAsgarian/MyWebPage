@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import post.entity.Comment;
 import post.entity.Post;
-import post.interactors.CommentController;
+import post.interactors.CommentInteractor;
 import util.Pair;
 
 import java.util.ArrayList;
 
 
 class AddCommentTest {
-    CommentController commentController;
+    CommentInteractor commentInteractor;
     @Mock
     TextBoxComponent textBox;
     @Mock
@@ -41,23 +41,23 @@ class AddCommentTest {
         this.adminUser = Mockito.mock(AdminUser.class);
         this.dataBaseApi = Mockito.mock(DataBaseApi.class);
         this.postPresenter = Mockito.mock(PostPresenter.class);
-        this.commentController = new CommentController(this.postPresenter,this.dataBaseApi);
+        this.commentInteractor = new CommentInteractor(this.postPresenter,this.dataBaseApi);
     }
     @Test
      void canAddingTextBoxToComment(){
         Comment comment = new Comment(this.normalUser,this.post);
-        comment.setTextBox(this.textBox);
+        comment.setTextBoxComponent(this.textBox);
         Assertions.assertEquals(comment.getTextBoxComponent(),this.textBox);
     }
     @Test
      void canCreateComment() {
         NormalUser normalUser1 = new NormalUser("ali","password",new ArrayList<>());
         Post post1 = new Post(new ArrayList<Component>(),new ArrayList<Comment>(),this.adminUser,"");
-        Pair<Comment,String> commentXmessage = commentController.addComment(this.textBox,post1,normalUser1);
+        Pair<Comment,String> commentXmessage = commentInteractor.addComment(this.textBox,post1,normalUser1);
         Comment comment = commentXmessage.getKey();
         String message = commentXmessage.getValue();
         Assertions.assertEquals(normalUser1.getComments().get(0).getOwnerName(),normalUser1.getName());
-        Assertions.assertEquals(normalUser1.getComments().get(0).getCommentsPostId(),post1.getId());
+        Assertions.assertEquals(normalUser1.getComments().get(0).getPostId(),post1.getId());
         Assertions.assertEquals(post1.getComments().get(0),comment);
     }
     @Test
@@ -67,7 +67,7 @@ class AddCommentTest {
         Mockito.when(this.dataBaseApi.getNormalUserByName(normalUser1.getName())).thenReturn(normalUser1);
         Mockito.when(this.dataBaseApi.getAdminUserByName(this.adminUser.getName())).thenReturn(this.adminUser);
         Mockito.when(this.adminUser.getPostById(post1.getId())).thenReturn(this.post);
-        Pair<Comment,String> commentXmessage = commentController.addCommentWithUserName(post1.getId(),
+        Pair<Comment,String> commentXmessage = commentInteractor.addCommentWithUserName(post1.getId(),
                 this.adminUser.getName(),this.textBox,normalUser1.getName());
         String message = commentXmessage.getValue();
         Assertions.assertEquals("comment created successfully comment added succssessfully to post with id " +

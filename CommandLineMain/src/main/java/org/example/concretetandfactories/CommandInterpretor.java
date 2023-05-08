@@ -59,7 +59,7 @@ public class CommandInterpretor implements Interpreter {
     }
 
     private Response showComments(String[] words) {
-        return new Response(this.postUsecase.showCommentsOfPostByPostIdAndAdminName(words[1],words[2]).getValue());
+        return new Response(this.commentUsecase.showCommentsOfPostByPostIdAndAdminName(words[1],words[2]).getValue());
     }
 
     private Response showPost(String[] words) {

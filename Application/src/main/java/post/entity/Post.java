@@ -2,13 +2,18 @@ package post.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import login.entities.AdminUser;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import post.boundries.Component;
 
 import java.util.List;
 
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JacksonXmlRootElement(localName = "post")
 public class Post {
     @Getter
     @JsonIgnore

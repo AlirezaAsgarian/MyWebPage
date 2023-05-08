@@ -9,11 +9,13 @@ import post.boundries.PostPresenter;
 import post.boundries.TextBoxComponent;
 import util.Pair;
 
-public class CommentController implements CommentUsecase {
+import java.util.List;
+
+public class CommentInteractor implements CommentUsecase {
     DataBaseApi dataBaseApi;
     PostPresenter postPresenter;
 
-    public CommentController(PostPresenter postPresenter, DataBaseApi dataBaseApi)
+    public CommentInteractor(PostPresenter postPresenter, DataBaseApi dataBaseApi)
     {
         this.dataBaseApi = dataBaseApi;
         this.postPresenter = postPresenter;
@@ -77,5 +79,31 @@ public class CommentController implements CommentUsecase {
     private Post getPostById(String postId, String adminName) {
         AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
         return adminUser.getPostById(postId);
+    }
+
+
+    public Pair<Post,String> showCommentsOfPostByPostIdAndAdminName(String postId, String adminName) {
+        AdminUser adminUser = this.dataBaseApi.getAdminUserByName(adminName);
+        if(adminUser == null){
+            return new Pair<>(null,"no admin exists with this name");
+        }
+        Post post = adminUser.getPostById(postId);
+        if (post == null){
+            return new Pair<>(null,"no post exists with this id");
+        }
+        if(post.isShowingComments()){
+            return new Pair<>(null,"comments has already shown");
+        }
+        return new Pair<>(post,this.showPostComments(post,post.getComments()));
+
+    }
+    public String showPostComments(Post post, List<Comment> comments) {
+        if(!post.isShowing()){
+            return "can't show comments of post which hasn't shown yet";
+        }
+        this.postPresenter.showComments(comments);
+        post.setShowingComments(true);
+        this.dataBaseApi.setShowingComment("true",post.getId());
+        return "comments of post " + post.getId() + " is showing successfully";
     }
 }

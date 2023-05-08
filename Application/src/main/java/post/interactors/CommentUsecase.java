@@ -10,4 +10,6 @@ public interface CommentUsecase {
     public Pair<Comment,String> addComment(TextBoxComponent textBox, Post post, NormalUser normalUser);
     public Pair<Comment,String> addCommentWithUserName(String postId,String adminName, TextBoxComponent textBox,String userName);
     public Pair<Post,String> hideCommentsByAdminNameeAndPostId(String postId, String adminName);
+    public Pair<Post,String> showCommentsOfPostByPostIdAndAdminName(String postId, String adminName);
+
 }

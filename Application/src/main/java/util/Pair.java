@@ -1,8 +1,22 @@
 package util;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@JacksonXmlRootElement(localName = "pair")
 public class Pair<K, V> implements Serializable {
+    @JacksonXmlProperty(localName = "key")
     public K key;
+    @JacksonXmlProperty(localName = "value")
     public V value;
 
     public K getKey() {

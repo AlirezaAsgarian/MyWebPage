@@ -3,21 +3,21 @@ package post.entity;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import login.entities.NormalUser;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import post.boundries.TestText;
 import post.boundries.TextBoxComponent;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @JacksonXmlRootElement(localName = "comment")
 public class Comment {
 
-    @JacksonXmlProperty(localName = "text-component")
+    @JacksonXmlProperty(localName = "textBoxComponent")
     TextBoxComponent textBoxComponent;
-    @JacksonXmlProperty(localName = "post-id")
+    @JacksonXmlProperty(localName = "postId")
     String postId;
-    @JacksonXmlProperty(localName = "owner-name")
+    @JacksonXmlProperty(localName = "ownerName")
     String ownerName;
 
 
@@ -30,23 +30,7 @@ public class Comment {
     public Comment(String text, String normalUserName, String postId) {
         this.postId = postId;
         this.ownerName = normalUserName;
-        this.textBoxComponent = new TextBoxComponent() {
-
-            @Override
-            public String getPath() {
-                return "text path";
-            }
-
-            @Override
-            public String getType() {
-                return "text";
-            }
-
-            @Override
-            public String getOwnerPostId() {
-                return postId;
-            }
-        }; // todo : create text component with text
+        this.textBoxComponent = new TestText(this.postId);
     }
 
     public Comment(NormalUser normalUser, Post commentsPost) {
@@ -54,11 +38,9 @@ public class Comment {
         this.ownerName = normalUser.getName();
     }
 
-    public void setTextBox(TextBoxComponent textBox) {
-        this.textBoxComponent = textBox;
-    }
 
-    public String getCommentsPostId() {
-        return this.postId;
-    }
+
 }
+
+
+

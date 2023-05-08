@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import post.entity.Comment;
 import post.entity.Post;
-import post.interactors.PostController;
+import post.interactors.PostInteractor;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class AddPostTest {
     VideoComponent video;
     @Mock
     AdminUser adminUser;
-    PostController postController;
+    PostInteractor postInteractor;
     @Mock
     PostPresenter postPresenter;
     @Mock
@@ -48,7 +48,7 @@ public class AddPostTest {
         this.adminUser = Mockito.mock(AdminUser.class);
         this.postPresenter = Mockito.mock(PostPresenter.class);
         this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
-        this.postController = new PostController(this.postPresenter,this.dataBaseApi);
+        this.postInteractor = new PostInteractor(this.postPresenter,this.dataBaseApi);
     }
     @Test
     public void canAddingImageToPost(){
@@ -79,7 +79,7 @@ public class AddPostTest {
     public void createPostByAdminUser(){
         AdminUser adminUser = new AdminUser("ali","password",new ArrayList<>());
         this.dataBaseApi.addAdminUser(adminUser);
-        Pair<Post,String> postXmessage = this.postController.addPost(new ArrayList<Comment>(), adminUser.getName(), List.of(image,video,textBox));
+        Pair<Post,String> postXmessage = this.postInteractor.addPost(new ArrayList<Comment>(), adminUser.getName(), List.of(image,video,textBox));
         Post post = postXmessage.getKey();
         String postMessage = postXmessage.getValue();
         adminUser = this.dataBaseApi.getAdminUserByName(adminUser.getName());

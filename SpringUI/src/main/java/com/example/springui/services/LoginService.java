@@ -1,6 +1,5 @@
 package com.example.springui.services;
 
-import com.example.springui.utils.Pair;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
 import login.interactors.LoginUsecase;
@@ -8,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
+import util.Pair;
 
 
 @Service

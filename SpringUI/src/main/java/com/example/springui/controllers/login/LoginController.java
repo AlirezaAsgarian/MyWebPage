@@ -1,16 +1,13 @@
 package com.example.springui.controllers.login;
 
 import com.example.springui.services.LoginService;
-import com.example.springui.utils.Pair;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
-import login.interactors.LoginInteractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Provider;
+import util.Pair;
 
 
 @RestController

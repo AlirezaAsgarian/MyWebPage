@@ -17,8 +17,8 @@ import org.mockito.Mockito;
 import post.boundries.PostPresenter;
 import post.boundries.TextBoxComponent;
 import post.entity.Post;
-import post.interactors.CommentController;
-import post.interactors.PostController;
+import post.interactors.CommentInteractor;
+import post.interactors.PostInteractor;
 
 import static org.mockito.Mockito.mock;
 
@@ -28,8 +28,8 @@ public class CommandInterpretorAddPostTest {
     DataBaseApi dataBaseApi;
     LoginInteractor loginInteractor;
 
-    PostController postController;
-    CommentController commentController;
+    PostInteractor postInteractor;
+    CommentInteractor commentInteractor;
     @Mock
     TextBoxComponent textBox;
     @Mock

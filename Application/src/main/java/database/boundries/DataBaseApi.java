@@ -6,6 +6,8 @@ import post.entity.Comment;
 import post.entity.Post;
 import util.Pair;
 
+import java.util.List;
+
 public interface DataBaseApi {
     Boolean checkNormalUserIfExistWithThisName(User user);
 
@@ -34,4 +36,8 @@ public interface DataBaseApi {
     void deleteNormalUserByName(String asghar);
 
     void deleteAdminUserByName(String bbex);
+
+    List<Post> getPostsByTitles(String searchTitle);
+
+    List<Post> getPostsByDates(int i);
 }

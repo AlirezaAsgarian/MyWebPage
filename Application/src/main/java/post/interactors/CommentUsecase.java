@@ -12,4 +12,5 @@ public interface CommentUsecase {
     public Pair<Post,String> hideCommentsByAdminNameeAndPostId(String postId, String adminName);
     public Pair<Post,String> showCommentsOfPostByPostIdAndAdminName(String postId, String adminName);
 
+    Pair<Post, String> showCommentsOfPostByTitle(String title);
 }

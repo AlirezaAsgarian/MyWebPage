@@ -6,35 +6,35 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import login.entities.AdminUser;
 import lombok.*;
 import post.boundries.Component;
+import util.DateGetter;
 
+import java.sql.Date;
 import java.util.List;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JacksonXmlRootElement(localName = "post")
 public class Post {
-    @Getter
     @JsonIgnore
     List<Component> components;
-    @Getter
     @JsonIgnore
     List<Comment> comments;
-    @Getter
+
     @JacksonXmlProperty(localName = "ownername")
     String ownerName;
-    @Getter
     @JacksonXmlProperty(localName = "id")
     String id;
-    @Setter
-    @Getter
+
     @JacksonXmlProperty(localName = "isShowing")
     boolean isShowing;
-    @Setter
-    @Getter
+
     @JacksonXmlProperty(localName = "isShowingComments")
     boolean isShowingComments;
+    String title;
+    String date;
 
     public Post(List<Component> components,List<Comment> comments,AdminUser owner,String id) {
         this.components = components;
@@ -43,6 +43,17 @@ public class Post {
         this.isShowing = false;
         this.isShowingComments = false;
         this.comments = comments;
+        this.date = DateGetter.getCurrentDate();
+    }
+    public Post(List<Component> components,List<Comment> comments,AdminUser owner,String id,String title) {
+        this.components = components;
+        this.ownerName = owner.getName();
+        this.id = id;
+        this.isShowing = false;
+        this.isShowingComments = false;
+        this.comments = comments;
+        this.title = title;
+        this.date = DateGetter.getCurrentDate();
     }
     public Post(List<Component> components,List<Comment> comments,String ownername,String id) {
         this.components = components;
@@ -51,6 +62,18 @@ public class Post {
         this.isShowing = false;
         this.isShowingComments = false;
         this.comments = comments;
+        this.date = DateGetter.getCurrentDate();
+    }
+
+    public Post(List<Component> components,List<Comment> comments,String ownername,String id,String title) {
+        this.components = components;
+        this.ownerName = ownername;
+        this.id = id;
+        this.isShowing = false;
+        this.isShowingComments = false;
+        this.comments = comments;
+        this.title = title;
+        this.date = DateGetter.getCurrentDate();
     }
 
 
@@ -67,4 +90,8 @@ public class Post {
     }
 
 
+    public void updateComponentByRank(int rank, Component newComponent) {
+        this.components.set(rank - 1,newComponent);
+        this.date = DateGetter.getCurrentDate();
+    }
 }

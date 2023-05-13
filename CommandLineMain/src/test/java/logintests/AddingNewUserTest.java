@@ -62,7 +62,6 @@ public class AddingNewUserTest {
     }
     @Test
     void addAdminUnsuccssessUserExsistsWithSameNameTest(){
-        this.dataBaseApi.deleteAdminUserByName("QXYZEE");
         adminUser.setName("QXYZEE");
         adminUser.setPasword("password");
         String addAdminMessage = loginInteractor.tryAddingAdminUser(adminUser.getName(),adminUser.getPassword(),new ArrayList<>());

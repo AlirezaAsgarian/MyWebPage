@@ -26,17 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 
 @SpringBootTest(classes = SpringUiApplication.class)
-public class ShowPostTest {
-
-    @Autowired
-    WebApplicationContext webApplicationContext;
-    protected MockMvc mvc;
+public class ShowPostTest extends PostTestBase{
 
 
-    @BeforeEach
-    void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
 
 
     @Test
@@ -158,19 +150,5 @@ public class ShowPostTest {
 
 
 
-    private MvcResult showPost(XmlMapper xmlMapper, HashMap<String, Object> args, Post responsePost,String adminName) throws Exception {
-        args.put("postId", responsePost.getId());
-        args.put("adminName",adminName);
-        String xml = xmlMapper.writeValueAsString(args);
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/show-post").contentType(MediaType.APPLICATION_XML).content(xml)).andReturn();
-        return result;
-    }
 
-
-    private Pair addPost(Post post,XmlMapper xmlMapper) throws Exception {
-        String xml = xmlMapper.writeValueAsString(post);
-        Post normalUser1 = xmlMapper.readValue(xml,Post.class);
-        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/add-post").contentType(MediaType.APPLICATION_XML).content(xml)).andReturn();
-        return xmlMapper.readValue(result.getResponse().getContentAsString(),Pair.class);
-}
 }

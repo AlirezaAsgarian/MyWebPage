@@ -36,6 +36,21 @@ public class CommentService {
         return null;
 
     }
+
+    public Pair<Pair<Post, String>, HttpStatus> hideComment(String postId, String adminName) {
+        Pair<Post,String> response = commentUsecase.hideCommentsByAdminNameeAndPostId(postId, adminName);
+        if(response.getValue().equals("comments of post " + postId + " hided successfully")) {
+            return new Pair<>(response, HttpStatus.OK);
+        }else if(response.getValue().equals("comments has already hided")){
+            return new Pair<>(response, HttpStatus.CONFLICT);
+        }else if(response.getValue().equals("no admin exists with this name")){
+            return new Pair<>(response,HttpStatus.NOT_FOUND);
+        }else if(response.getValue().equals("no post exists with this id")){
+            return new Pair<>(response,HttpStatus.NOT_FOUND);
+        }
+        return null;
+
+    }
 }
 
 

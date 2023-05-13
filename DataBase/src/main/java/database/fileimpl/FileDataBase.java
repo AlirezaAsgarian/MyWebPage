@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class FileDataBase implements DataBaseApi {
@@ -210,5 +211,19 @@ public class FileDataBase implements DataBaseApi {
     @Override
     public void deleteAdminUserByName(String bbex) {
 
+    }
+
+    @Override
+    public List<Post> getPostsByTitles(String searchTitle) {
+        return posts.stream().filter(p -> p.getTitle().startsWith(searchTitle)).toList();
+    }
+
+    @Override
+    public List<Post> getPostsByDates(int i) {
+        if(i > posts.size()){
+            return new ArrayList<>();
+        }else {
+            return posts.stream().sorted((e1,e2) -> e2.getDate().compareTo(e1.getDate())).toList().subList(0,i);
+        }
     }
 }

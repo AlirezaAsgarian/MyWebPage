@@ -313,10 +313,31 @@ public class MySqlDataBase implements DataBaseApi {
     @Override
     public void deleteAdminUserByName(String name) {
         try {
+            disableForeignKeyCheck();
             String query = queryFormatter.deleteQuery("AdminUser",List.of("username"),List.of(name));
             stm.execute(query);
+            enableForeignKeyCheck();
         } catch (SQLException e) {
+
         }
+    }
+
+    @Override
+    public List<Post> getPostsByTitles(String searchTitle) {
+        return null;
+    }
+
+    @Override
+    public List<Post> getPostsByDates(int i) {
+        return null;
+    }
+
+    private void enableForeignKeyCheck() throws SQLException {
+        stm.execute("SET FOREIGN_KEY_CHECKS=1");
+    }
+
+    private void disableForeignKeyCheck() throws SQLException {
+        stm.execute("SET FOREIGN_KEY_CHECKS=0");
     }
 
 }

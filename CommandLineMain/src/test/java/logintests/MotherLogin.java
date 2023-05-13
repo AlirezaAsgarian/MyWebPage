@@ -17,6 +17,13 @@ public class MotherLogin {
         return dataBaseApi;
     }
 
+    public static DataBaseApi getFileDataBaseWithOneUserWithNameAliAndQXYZEEasAdmin(){
+        DataBaseApi dataBaseApi = new FileDataBase(new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
+        dataBaseApi.addNormalUser(new NormalUser("ali","AliPassword",new ArrayList<>()));
+        dataBaseApi.addAdminUser(new AdminUser("QXYZEE","password",new ArrayList<>()));
+        return dataBaseApi;
+    }
+
     public static DataBaseApi getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin(){
         DataBaseApi dataBaseApi = new MySqlDataBase(new QueryFormatterImpl());
         dataBaseApi.addNormalUser(new NormalUser("ali","AliPassword",new ArrayList<>()));

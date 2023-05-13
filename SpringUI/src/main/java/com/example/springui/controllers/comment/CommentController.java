@@ -45,4 +45,13 @@ public class CommentController {
         return new ResponseEntity<>(response.getKey(),response.getValue());
     }
 
+    @RequestMapping(method = RequestMethod.POST,value = "/hide-comment",produces = "application/xml")
+    public ResponseEntity<Pair<Post,String>> hideComment(@RequestBody Map<String,Object> arguments){ // arguments : admin name , comment
+        ObjectMapper objectMapper = new ObjectMapper();
+        String adminName = objectMapper.convertValue(arguments.get("adminName"),String.class);
+        String postId = objectMapper.convertValue(arguments.get("postId"),String.class);
+        Pair<Pair<Post,String>,HttpStatus> response = commentService.hideComment(postId,adminName);
+        return new ResponseEntity<>(response.getKey(),response.getValue());
+    }
+
 }

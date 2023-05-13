@@ -35,6 +35,14 @@ public class PostController {
         return new ResponseEntity<>(response.getKey(),response.getValue());
     }
 
+    @RequestMapping(method = RequestMethod.POST,value = "/hide-post",produces = "application/xml")
+    public ResponseEntity<Pair<Post,String>> hidePost(@RequestBody Map<String,String> args){
+        String adminName = args.get("adminName");
+        String postId = args.get("postId");
+        Pair<Pair<Post,String>, HttpStatus> response = postService.hidePost(postId,adminName);
+        return new ResponseEntity<>(response.getKey(),response.getValue());
+    }
+
 
 
 }

@@ -97,6 +97,20 @@ public class CommentInteractor implements CommentUsecase {
         return new Pair<>(post,this.showPostComments(post,post.getComments()));
 
     }
+
+    @Override
+    public Pair<Post, String> showCommentsOfPostByTitle(String title) {
+        List<Post> posts = this.dataBaseApi.getPostsByTitles(title);
+        if(posts.size() == 0){
+            return new Pair<>(null,"no post founds with this title");
+        }
+        if(posts.size() > 1){
+            return new Pair<>(null,"post title is not unique");
+        }
+        Post post = posts.get(0);
+        return new Pair<>(post,this.showPostComments(post,post.getComments()));
+    }
+
     public String showPostComments(Post post, List<Comment> comments) {
         if(!post.isShowing()){
             return "can't show comments of post which hasn't shown yet";

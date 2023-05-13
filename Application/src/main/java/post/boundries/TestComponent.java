@@ -25,4 +25,9 @@ public class TestComponent implements Component {
     public String getOwnerPostId() {
         return postId;
     }
+
+    @Override
+    public int getRank() {
+        return 0;
+    }
 }

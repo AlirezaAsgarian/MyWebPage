@@ -39,4 +39,18 @@ public class PostService {
             return null;
         }
     }
+
+    public Pair<Pair<Post, String>, HttpStatus> hidePost(String postId,String adminName) {
+        Pair<Post, String> response = postUsecase.hidePostByAdminNameAndPostId(postId, adminName);
+        if(response.getValue().equals("post with id " + postId + " hided successfully")){
+            return new Pair<>(response,HttpStatus.OK);
+        }else if(response.getValue().equals("post has already hided")){
+            return new Pair<>(response,HttpStatus.CONFLICT);
+        } else if(response.getValue().equals("comments closed successfully post with id "
+                + postId + " hided successfully")){
+          return new Pair<>(response,HttpStatus.OK);
+        } else {
+            return null;
+        }
+    }
 }

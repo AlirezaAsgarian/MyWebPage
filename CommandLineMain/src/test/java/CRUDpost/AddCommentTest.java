@@ -1,4 +1,4 @@
-package addPost;
+package CRUDpost;
 
 import database.boundries.DataBaseApi;
 import login.entities.AdminUser;
@@ -19,29 +19,28 @@ import util.Pair;
 import java.util.ArrayList;
 
 
-class AddCommentTest {
+class AddCommentTest extends PostBase {
     CommentInteractor commentInteractor;
     @Mock
     TextBoxComponent textBox;
-    @Mock
-    NormalUser normalUser;
-    @Mock
-    Post post;
     @Mock
     AdminUser adminUser;
     @Mock
     DataBaseApi dataBaseApi;
     @Mock
     PostPresenter postPresenter;
+    private NormalUser normalUser;
+    private Post post;
+
     @BeforeEach
     public void setup() {
         this.textBox = Mockito.mock(TextBoxComponent.class);
-        this.normalUser = Mockito.mock(NormalUser.class);
-        this.post = Mockito.mock(Post.class);
         this.adminUser = Mockito.mock(AdminUser.class);
         this.dataBaseApi = Mockito.mock(DataBaseApi.class);
         this.postPresenter = Mockito.mock(PostPresenter.class);
         this.commentInteractor = new CommentInteractor(this.postPresenter,this.dataBaseApi);
+        this.normalUser = new NormalUser("ali","password",new ArrayList<>());
+        this.post = new Post(new ArrayList<Component>(),new ArrayList<Comment>(), this.adminUser,"");
     }
     @Test
      void canAddingTextBoxToComment(){
@@ -51,29 +50,27 @@ class AddCommentTest {
     }
     @Test
      void canCreateComment() {
-        NormalUser normalUser1 = new NormalUser("ali","password",new ArrayList<>());
-        Post post1 = new Post(new ArrayList<Component>(),new ArrayList<Comment>(),this.adminUser,"");
-        Pair<Comment,String> commentXmessage = commentInteractor.addComment(this.textBox,post1,normalUser1);
+        Pair<Comment,String> commentXmessage = commentInteractor.addComment(this.textBox, post, normalUser);
         Comment comment = commentXmessage.getKey();
-        String message = commentXmessage.getValue();
-        Assertions.assertEquals(normalUser1.getComments().get(0).getOwnerName(),normalUser1.getName());
-        Assertions.assertEquals(normalUser1.getComments().get(0).getPostId(),post1.getId());
-        Assertions.assertEquals(post1.getComments().get(0),comment);
-    }
-    @Test
-    void addCommentByNameOfNormalUser(){
-        NormalUser normalUser1 = new NormalUser("ali","password",new ArrayList<>());
-        Post post1 = new Post(new ArrayList<Component>(),new ArrayList<Comment>(),this.adminUser,"");
-        Mockito.when(this.dataBaseApi.getNormalUserByName(normalUser1.getName())).thenReturn(normalUser1);
-        Mockito.when(this.dataBaseApi.getAdminUserByName(this.adminUser.getName())).thenReturn(this.adminUser);
-        Mockito.when(this.adminUser.getPostById(post1.getId())).thenReturn(this.post);
-        Pair<Comment,String> commentXmessage = commentInteractor.addCommentWithUserName(post1.getId(),
-                this.adminUser.getName(),this.textBox,normalUser1.getName());
-        String message = commentXmessage.getValue();
-        Assertions.assertEquals("comment created successfully comment added succssessfully to post with id " +
-                post.getId(),message);
+        assertName(normalUser.getName(), normalUser.getComments().get(0).getOwnerName());
+        assertPostId(normalUser.getComments().get(0).getPostId(), post.getId());
+        Assertions.assertEquals(post.getComments().get(0),comment);
     }
 
+
+
+    @Test
+    void addCommentByNameOfNormalUser(){
+        Mockito.when(this.dataBaseApi.getNormalUserByName(normalUser.getName())).thenReturn(normalUser);
+        Mockito.when(this.dataBaseApi.getAdminUserByName(this.adminUser.getName())).thenReturn(this.adminUser);
+        Mockito.when(this.adminUser.getPostById(post.getId())).thenReturn(this.post);
+        Pair<Comment,String> commentXmessage = commentInteractor.addCommentWithUserName(post.getId(),
+                this.adminUser.getName(),this.textBox, normalUser.getName());
+        String message = commentXmessage.getValue();
+        String expected = "comment created successfully comment added succssessfully to post with id " +
+                post.getId();
+        assertResponseMessage(expected,message);
+    }
 
 
 }

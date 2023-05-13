@@ -10,7 +10,7 @@ import java.util.List;
 public class TestConsole implements AppConsole {
     List<String> commandstrings;
     List<Command> commands;
-    int counter;
+    private int counter;
 
     public TestConsole(List<String> strings) {
         commands = new ArrayList<>();
@@ -24,7 +24,7 @@ public class TestConsole implements AppConsole {
 
     @Override
     public Command getCommandFromUser() {
-        return commands.get(counter ++);
+        return commands.get(counter++);
     }
 
     @Override
@@ -42,5 +42,6 @@ public class TestConsole implements AppConsole {
     }
     public void clearCommands(){
         this.commandstrings.clear();
+        this.counter = 0;
     }
 }

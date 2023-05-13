@@ -18,6 +18,7 @@ public class TestText implements TextBoxComponent {
     String type = "text";
     @JacksonXmlProperty(localName = "path")
     String path = "text path";
+    int rank;
 
     public TestText(String postId) {
         this.ownerPostId = postId;
@@ -36,5 +37,10 @@ public class TestText implements TextBoxComponent {
     @Override
     public String getOwnerPostId() {
         return this.ownerPostId;
+    }
+
+    @Override
+    public int getRank() {
+        return this.rank;
     }
 }

@@ -1,6 +1,5 @@
 package CRUDpost;
 
-import database.boundries.DataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
 import logintests.MotherLogin;
@@ -15,6 +14,9 @@ import post.boundries.TextBoxComponent;
 import post.entity.Comment;
 import post.entity.Post;
 import post.interactors.CommentInteractor;
+import post.interactors.PostInteractor;
+import post.interactors.PostUsecase;
+import showpost.ShowPostBase;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
 
-public class AddCommentTest2 extends PostBase {
+public class AddCommentTest2 extends ShowPostBase {
     CommentInteractor commentInteractor;
     @Mock
     TextBoxComponent textBox;
@@ -31,29 +33,28 @@ public class AddCommentTest2 extends PostBase {
     @Mock
     AdminUser adminUser;
     @Mock
-    DataBaseApi dataBaseApi;
-    @Mock
     PostPresenter postPresenter;
-    private Post post;
+    private PostUsecase postUsecase;
 
     @BeforeEach
     public void setup() {
         this.textBox = Mockito.mock(TextBoxComponent.class);
         this.normalUser = new NormalUser("alinormal","password",new ArrayList<>());
         this.adminUser =  new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
-        this.dataBaseApi.addNormalUser(this.normalUser);
+        initializeDataBase(MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin());
+        this.loginDataBaseApi.addNormalUser(this.normalUser);
         this.postPresenter = Mockito.mock(PostPresenter.class);
-        this.commentInteractor = new CommentInteractor(this.postPresenter,this.dataBaseApi);
+        this.commentInteractor = new CommentInteractor(this.postPresenter,this.postDataBaseApi);
         this.post = new Post(new ArrayList<Component>(),new ArrayList<Comment>(), this.adminUser, UUID.randomUUID().toString());
+        postUsecase = new PostInteractor(this.postPresenter,this.postDataBaseApi);
     }
 
     @Test
     void addCommentAndRetrieveItFromAdminUserPosts(){
-        this.dataBaseApi.addPost(post);
+        this.postStringPair = this.postUsecase.addPost(post.getComments(),post.getOwnerName(),post.getComponents()); updatePostAndResponse();
         Pair<Comment,String> commentXmessage = commentInteractor.addCommentWithUserName(post.getId(),
                 this.adminUser.getName(),this.textBox,this.normalUser.getName());
-        String message = commentXmessage.getValue();
+        message = commentXmessage.getValue();
         String expected = "comment created successfully comment added succssessfully to post with id " + post.getId();
         assertName(expected,message);
         updateUsers();
@@ -62,8 +63,8 @@ public class AddCommentTest2 extends PostBase {
     }
 
     private void updateUsers() {
-        this.adminUser = this.dataBaseApi.getAdminUserByName(this.adminUser.getName());
-        this.normalUser = this.dataBaseApi.getNormalUserByName("alinormal");
+        this.adminUser = this.loginDataBaseApi.getAdminUserByName(this.adminUser.getName());
+        this.normalUser = this.loginDataBaseApi.getNormalUserByName("alinormal");
     }
 
 

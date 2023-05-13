@@ -1,7 +1,7 @@
 package logintests;
 
+import database.boundries.LoginDataBaseApi;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
 import login.interactors.LoginInteractor;
 import login.entities.User;
 import org.junit.jupiter.api.Assertions;
@@ -11,12 +11,12 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 public class LoginTest {
-    DataBaseApi dataBaseApi;
+    LoginDataBaseApi dataBaseApi;
     LoginInteractor loginInteractor;
     User user;
     @BeforeEach
     public void setDataBase(){
-        this.dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
+        this.dataBaseApi = (LoginDataBaseApi) MotherLogin.getFileDataBaseWithOneUserWithNameAli();
         this.loginInteractor = new LoginInteractor(dataBaseApi);
         this.user = new User();
     }

@@ -1,7 +1,9 @@
 package centralenginetest;
 
+import database.boundries.LoginDataBaseApi;
+import database.mysqlimpl.MySqlDataBase;
+import database.mysqlimpl.MySqlDataBaseFactory;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
 import login.interactors.LoginInteractor;
 import login.entities.NormalUser;
 import appplay.Command;
@@ -25,7 +27,7 @@ import static org.mockito.Mockito.mock;
 public class CommandInterpretorAddPostTest {
 
     CommandInterpretor commandInterpretor;
-    DataBaseApi dataBaseApi;
+    LoginDataBaseApi dataBaseApi;
     LoginInteractor loginInteractor;
 
     PostInteractor postInteractor;
@@ -40,7 +42,7 @@ public class CommandInterpretorAddPostTest {
         this.postPresenter = Mockito.mock(PostPresenter.class);
         this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.textBox = Mockito.mock(TextBoxComponent.class);
-        this.commandInterpretor = new CommandInterpretor(new CommandInterpetorNormalFactory(this.dataBaseApi,this.postPresenter));
+        this.commandInterpretor = new CommandInterpretor(new CommandInterpetorNormalFactory(new MySqlDataBaseFactory((MySqlDataBase) this.dataBaseApi),this.postPresenter));
     }
 
     @Test
@@ -48,7 +50,7 @@ public class CommandInterpretorAddPostTest {
         String adminName = "QXYZEE";
         this.commandInterpretor.
                 interpret(new Command("addpost " + adminName));
-        NormalUser nu = this.dataBaseApi.checkNormalUserIfExistWithThisName("ali").getValue();
+        NormalUser nu = this.dataBaseApi.checkNormalUserIfExistWithThisNameAndReturn("ali").getValue();
         AdminUser adminUser1 = this.dataBaseApi.getAdminUserByName(adminName);
         Post post = adminUser1.getPosts().get(0);
         Response response = this.commandInterpretor.interpret(new Command("addcomment " + post.getId() + " " + adminName +

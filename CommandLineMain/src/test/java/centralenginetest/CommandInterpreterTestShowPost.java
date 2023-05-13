@@ -1,7 +1,9 @@
 package centralenginetest;
 
+import database.boundries.LoginDataBaseApi;
+import database.mysqlimpl.MySqlDataBase;
+import database.mysqlimpl.MySqlDataBaseFactory;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
 import login.interactors.LoginInteractor;
 import appplay.Command;
 import org.example.concretetandfactories.CommandInterpetorNormalFactory;
@@ -39,7 +41,7 @@ public class CommandInterpreterTestShowPost {
     @Mock
     LoginInteractor loginInteractor;
     CommentInteractor commentInteractor;
-    DataBaseApi dataBaseApi;
+    LoginDataBaseApi dataBaseApi;
     @BeforeEach
     public void setup() {
         this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
@@ -48,7 +50,7 @@ public class CommandInterpreterTestShowPost {
         this.image = Mockito.mock(ImageComponent.class);
         this.textBox = Mockito.mock(TextBoxComponent.class);
         this.video = Mockito.mock(VideoComponent.class);
-        this.commandInterpretor = new CommandInterpretor(new CommandInterpetorNormalFactory(this.dataBaseApi,this.postPresenter));
+        this.commandInterpretor = new CommandInterpretor(new CommandInterpetorNormalFactory(new MySqlDataBaseFactory((MySqlDataBase) this.dataBaseApi),this.postPresenter));
         Mockito.when(this.image.getType()).thenReturn(this.image.getClass().getSimpleName());
         Mockito.when(this.image.getPath()).thenReturn("image path");
         Mockito.when(this.textBox.getType()).thenReturn(this.textBox.getClass().getSimpleName());

@@ -2,6 +2,7 @@ module Application {
     opens login.entities;
     opens login.interactors;
     opens post.entity;
+    opens follow;
     requires com.google.gson;
     requires lombok;
     requires java.sql;

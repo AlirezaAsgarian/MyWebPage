@@ -1,6 +1,7 @@
 package centralenginetest;
 
-import database.boundries.DataBaseApi;
+import database.mysqlimpl.MySqlDataBase;
+import database.mysqlimpl.MySqlDataBaseFactory;
 import login.interactors.LoginInteractor;
 import login.entities.User;
 import appplay.Command;
@@ -20,7 +21,6 @@ import static org.mockito.Mockito.mock;
 public class CommandInterpretorAddingUserAndLoginTest {
 
     CommandInterpretor commandInterpretor;
-    DataBaseApi dataBaseApi;
     LoginInteractor loginInteractor;
     @Mock
     PostPresenter postPresenter;
@@ -28,9 +28,9 @@ public class CommandInterpretorAddingUserAndLoginTest {
     @BeforeEach
     public void setDataBase(){
         this.postPresenter = Mockito.mock(PostPresenter.class);
-        this.dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
+        Object dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
         this.commandInterpretor =
-                new CommandInterpretor(new CommandInterpetorNormalFactory(this.dataBaseApi,this.postPresenter));
+                new CommandInterpretor(new CommandInterpetorNormalFactory(new MySqlDataBaseFactory((MySqlDataBase) dataBaseApi),this.postPresenter));
         this.user = new User();
     }
 

@@ -1,7 +1,7 @@
 package CRUDpost;
 
 
-import database.boundries.DataBaseApi;
+import database.boundries.PostDataBaseApi;
 import logintests.MotherLogin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,14 +22,14 @@ public class UpdatePostTest extends PostBase {
 
     private PostUsecase postUsecase;
     private Post post;
-    private DataBaseApi dataBaseApi;
+    private PostDataBaseApi dataBaseApi;
     private String currentDate;
     private Pair<Post, String> postStringPair;
     private String response;
 
     @BeforeEach
     void setUp() {
-        dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAliAndQXYZEEasAdmin();
+        dataBaseApi = (PostDataBaseApi) MotherLogin.getFileDataBaseWithOneUserWithNameAliAndQXYZEEasAdmin();
         postUsecase = new PostInteractor(new MockPostPresenter(), dataBaseApi);
         currentDate = DateGetter.getCurrentDate();
         post = new Post(new ArrayList<>(List.of(TestText.builder().rank(1).build(),TestText.builder().rank(2).build())),new ArrayList<>(),"QXYZEE", UUID.randomUUID().toString(),"first Test Title");

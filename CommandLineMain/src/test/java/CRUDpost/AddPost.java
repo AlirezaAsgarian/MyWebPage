@@ -1,7 +1,7 @@
 package CRUDpost;
 
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
 import logintests.MotherLogin;
 import org.mockito.Mockito;
 import post.boundries.*;
@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import post.entity.Comment;
 import post.entity.Post;
 import post.interactors.PostInteractor;
+import showpost.ShowPostBase;
 import util.Pair;
 
 import java.util.ArrayList;
@@ -20,37 +21,22 @@ import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
 
-public class AddPost extends PostBase {
-    @Mock
-    ImageComponent image;
-    @Mock
-    TextBoxComponent textBox;
-    @Mock
-    VideoComponent video;
+public class AddPost extends ShowPostBase {
+
     @Mock
     AdminUser adminUser;
     PostInteractor postInteractor;
     @Mock
     PostPresenter postPresenter;
-    @Mock
-    DataBaseApi dataBaseApi;
 
-    private void mockComponents() {
-        this.image = Mockito.mock(ImageComponent.class);
-        this.textBox = Mockito.mock(TextBoxComponent.class);
-        this.video = Mockito.mock(VideoComponent.class);
-        mockComponent(this.image, "imagePath");
-        mockComponent(this.textBox, "text path");
-        mockComponent(this.video, "video path");
-    }
 
     @BeforeEach
     public void setup() {
         mockComponents();
         this.adminUser = Mockito.mock(AdminUser.class);
         this.postPresenter = Mockito.mock(PostPresenter.class);
-        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
-        this.postInteractor = new PostInteractor(this.postPresenter, this.dataBaseApi);
+        initializeDataBase(MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin());
+        this.postInteractor = new PostInteractor(this.postPresenter, this.postDataBaseApi);
     }
 
 
@@ -86,11 +72,11 @@ public class AddPost extends PostBase {
     @Test
     public void createPostByAdminUser() {
         AdminUser adminUser = new AdminUser("ali", "password", new ArrayList<>());
-        this.dataBaseApi.addAdminUser(adminUser);
+        this.loginDataBaseApi.addAdminUser(adminUser);
         Pair<Post, String> postXmessage = this.postInteractor.addPost(new ArrayList<Comment>(), adminUser.getName(), List.of(image, video, textBox));
         Post post = postXmessage.getKey();
         String postMessage = postXmessage.getValue();
-        adminUser = this.dataBaseApi.getAdminUserByName(adminUser.getName());
+        adminUser = this.postDataBaseApi.getAdminUserByName(adminUser.getName());
         assertPathComponent("image path", adminUser.getPostById(post.getId()).getComponents().get(0).getPath());
         assertPathComponent("video path", adminUser.getPostById(post.getId()).getComponents().get(1).getPath());
         assertPathComponent("text path", adminUser.getPostById(post.getId()).getComponents().get(2).getPath());

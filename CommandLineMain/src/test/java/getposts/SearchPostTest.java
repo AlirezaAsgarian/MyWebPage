@@ -1,7 +1,7 @@
 package getposts;
 
 import CRUDpost.PostBase;
-import database.boundries.DataBaseApi;
+import database.boundries.PostDataBaseApi;
 import logintests.MotherLogin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +22,12 @@ public class SearchPostTest extends PostBase {
 
     private PostUsecase postUsecase;
     private Post post1;
-    private DataBaseApi dataBaseApi;
+    private PostDataBaseApi dataBaseApi;
     private Post post2;
 
     @BeforeEach
     void setUp() {
-        dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAliAndQXYZEEasAdmin();
+        dataBaseApi = (PostDataBaseApi) MotherLogin.getFileDataBaseWithOneUserWithNameAliAndQXYZEEasAdmin();
         postUsecase = new PostInteractor(new MockPostPresenter(), dataBaseApi);
         post1 = new Post(new ArrayList<>(List.of(TestText.builder().rank(1).build(),TestText.builder().rank(2).build())),new ArrayList<>(),"QXYZEE", UUID.randomUUID().toString(),"first Test Title");
         post2 = new Post(new ArrayList<>(),new ArrayList<>(),"QXYZEE", UUID.randomUUID().toString(),"second Test Title");

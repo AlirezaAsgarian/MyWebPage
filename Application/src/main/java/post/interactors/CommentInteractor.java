@@ -1,6 +1,6 @@
 package post.interactors;
 
-import database.boundries.DataBaseApi;
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
 import post.entity.Comment;
@@ -12,10 +12,10 @@ import util.Pair;
 import java.util.List;
 
 public class CommentInteractor implements CommentUsecase {
-    DataBaseApi dataBaseApi;
+    PostDataBaseApi dataBaseApi;
     PostPresenter postPresenter;
 
-    public CommentInteractor(PostPresenter postPresenter, DataBaseApi dataBaseApi)
+    public CommentInteractor(PostPresenter postPresenter, PostDataBaseApi dataBaseApi)
     {
         this.dataBaseApi = dataBaseApi;
         this.postPresenter = postPresenter;

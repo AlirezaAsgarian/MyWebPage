@@ -1,9 +1,8 @@
 package post.interactors;
 
 
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
-import post.boundries.TestText;
 import post.entity.Comment;
 import post.boundries.Component;
 import post.entity.Post;
@@ -15,9 +14,9 @@ import java.util.UUID;
 
 public class PostInteractor implements PostUsecase{
     PostPresenter postPresenter;
-    DataBaseApi dataBaseApi;
+    PostDataBaseApi dataBaseApi;
 
-    public PostInteractor(PostPresenter postPresenter, DataBaseApi dataBaseApi) {
+    public PostInteractor(PostPresenter postPresenter, PostDataBaseApi dataBaseApi) {
         this.postPresenter = postPresenter;
         this.dataBaseApi = dataBaseApi;
     }

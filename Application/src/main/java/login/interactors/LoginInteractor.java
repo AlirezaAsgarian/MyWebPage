@@ -1,7 +1,7 @@
 package login.interactors;
 
+import database.boundries.LoginDataBaseApi;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
 import login.entities.NormalUser;
 import login.entities.User;
 import lombok.Getter;
@@ -12,14 +12,14 @@ import util.Pair;
 import java.util.List;
 
 public class LoginInteractor implements LoginUsecase {
-    public LoginInteractor(DataBaseApi dataBaseApi) {
+    public LoginInteractor(LoginDataBaseApi dataBaseApi) {
         this.dataBaseApi = dataBaseApi;
     }
 
     User loggedInUser;
     @Getter
-    DataBaseApi dataBaseApi;
-    public void setDataBaseApi(DataBaseApi dataBaseApi) {
+    LoginDataBaseApi dataBaseApi;
+    public void setDataBaseApi(LoginDataBaseApi dataBaseApi) {
         this.dataBaseApi = dataBaseApi;
     }
 
@@ -39,10 +39,10 @@ public class LoginInteractor implements LoginUsecase {
     }
 
     private boolean userExistsWithThisName(User user) {
-        return dataBaseApi.checkNormalUserIfExistWithThisName(user);
+        return dataBaseApi.checkNormalUserIfExistWithThisNameAndReturn(user);
     }
     private Pair<Boolean, NormalUser> userExistsWithThisName(String name) {
-        return dataBaseApi.checkNormalUserIfExistWithThisName(name);
+        return dataBaseApi.checkNormalUserIfExistWithThisNameAndReturn(name);
     }
 
 
@@ -83,7 +83,7 @@ public class LoginInteractor implements LoginUsecase {
     }
 
     private boolean checkAdminUserIfExistWithThisName(User user) {
-        return this.dataBaseApi.checkAdminUserIfExistWithThisName(user.getName()).getKey();
+        return this.dataBaseApi.checkAdminUserIfExistWithThisNameAndReturn(user.getName()).getKey();
     }
 
     public String  loginAdminUser(String name, String password){
@@ -120,7 +120,7 @@ public class LoginInteractor implements LoginUsecase {
     }
 
     private Pair<Boolean,AdminUser> adminUserExistsWithThisName(String name) {
-        return this.dataBaseApi.checkAdminUserIfExistWithThisName(name);
+        return this.dataBaseApi.checkAdminUserIfExistWithThisNameAndReturn(name);
     }
 }
 

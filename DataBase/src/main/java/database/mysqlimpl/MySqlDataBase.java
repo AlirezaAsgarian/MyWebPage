@@ -1,6 +1,7 @@
 package database.mysqlimpl;
 
-import database.boundries.DataBaseApi;
+import database.boundries.LoginDataBaseApi;
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
 import login.entities.User;
@@ -14,7 +15,7 @@ import java.sql.*;
 import java.util.*;
 
 
-public class MySqlDataBase implements DataBaseApi {
+public class MySqlDataBase implements LoginDataBaseApi, PostDataBaseApi {
 
     static final String DB_URL = "jdbc:mysql://localhost/mywebpageDB";
     static final String USER = "mywebpage";
@@ -35,7 +36,7 @@ public class MySqlDataBase implements DataBaseApi {
     }
 
     @Override
-    public Boolean checkNormalUserIfExistWithThisName(User user) {
+    public Boolean checkNormalUserIfExistWithThisNameAndReturn(User user) {
         try {
             Statement stm = createStatement();
             String query = queryFormatter.selectUserByColumnsNames( "NormalUser", List.of("username"), List.of(user.getName()));
@@ -105,7 +106,7 @@ public class MySqlDataBase implements DataBaseApi {
 
 
     @Override
-    public Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisName(String name) {
+    public Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisNameAndReturn(String name) {
         try {
                 Statement stm = createStatement();
                 String query = queryFormatter.selectUserByJoinAndColumnsNames("LEFT JOIN", "AdminUser", "postTable", "username", "ownername",
@@ -119,6 +120,11 @@ public class MySqlDataBase implements DataBaseApi {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+    }
+
+    @Override
+    public Boolean checkAdminUserIfExistWithThisName(String name) {
+        return null;
     }
 
     @Override
@@ -175,12 +181,17 @@ public class MySqlDataBase implements DataBaseApi {
     }
 
     @Override
-    public Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisName(String name) {
+    public Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisNameAndReturn(String name) {
         NormalUser normalUser = this.getNormalUserByName(name);
         if(normalUser == null){
             return new Pair<>(false,null);
         }
         return new Pair<>(true,normalUser);
+    }
+
+    @Override
+    public Boolean checkNormalUserIfExistWithThisName(String name) {
+        return null;
     }
 
     @Override
@@ -340,4 +351,23 @@ public class MySqlDataBase implements DataBaseApi {
         stm.execute("SET FOREIGN_KEY_CHECKS=0");
     }
 
+    @Override
+    public void addRequestForFollowing(String normalName, String adminName) {
+
+    }
+
+    @Override
+    public void acceptFollowingRequest(String adminName, String normalName) {
+
+    }
+
+    @Override
+    public void rejectFollowingRequest(String adminName, String normalName) {
+
+    }
+
+    @Override
+    public void removeResponseForNormalUser(String normalName, String adminName) {
+
+    }
 }

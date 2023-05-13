@@ -12,6 +12,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Builder
@@ -22,13 +23,18 @@ public class NormalUser extends User{
     @Getter
     @JacksonXmlProperty(localName = "comments")
     List<Comment> comments;
+    List<String> following;
+    Map<String,String> responses;
     public NormalUser(String name, String password, List<Comment> comments) {
         super(name,password);
         this.comments = comments;
+
+    }
+    public NormalUser(String name, String password, List<Comment> comments,List<String> following,Map<String,String> responses) {
+        super(name,password);
+        this.comments = comments;
+        this.following = following;
+        this.responses = responses;
     }
 
-
-    public Comment createCommment(TextBoxComponent textBox,Post commentPost) {
-        return new Comment(textBox,this,commentPost);
-    }
 }

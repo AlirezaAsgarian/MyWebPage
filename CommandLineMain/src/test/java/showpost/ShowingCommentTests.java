@@ -1,8 +1,8 @@
 package showpost;
 
-import CRUDpost.PostBase;
+import database.boundries.LoginDataBaseApi;
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
 import logintests.MotherLogin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,6 @@ import post.entity.Comment;
 import post.entity.Post;
 import post.interactors.CommentInteractor;
 import post.interactors.PostInteractor;
-import util.Pair;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -29,12 +28,12 @@ public class ShowingCommentTests extends ShowPostBase {
 
     @BeforeEach
     public void setup() {
-        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
+        initializeDataBase(MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin());
         mockComponents();
         this.adminUser = Mockito.mock(AdminUser.class);
         this.postPresenter = Mockito.mock(PostPresenter.class);
-        this.postInteractor = new PostInteractor(this.postPresenter,this.dataBaseApi);
-        this.commentInteractor = new CommentInteractor(this.postPresenter,this.dataBaseApi);
+        this.postInteractor = new PostInteractor(this.postPresenter,this.postDataBaseApi);
+        this.commentInteractor = new CommentInteractor(this.postPresenter,this.postDataBaseApi);
         post = new Post(new ArrayList<Component>(),new ArrayList<Comment>(),
                 this.adminUser, UUID.randomUUID().toString());
     }
@@ -76,7 +75,7 @@ public class ShowingCommentTests extends ShowPostBase {
 
     private void reInitalizeFields() {
         adminUser = new AdminUser("ali","password",new ArrayList<>());
-        this.dataBaseApi.addAdminUser(adminUser);
+        this.loginDataBaseApi.addAdminUser(adminUser);
     }
 
 }

@@ -1,6 +1,6 @@
 package CRUDpost;
 
-import database.boundries.DataBaseApi;
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
 import org.mockito.Mockito;
@@ -26,7 +26,7 @@ class AddCommentTest extends PostBase {
     @Mock
     AdminUser adminUser;
     @Mock
-    DataBaseApi dataBaseApi;
+    PostDataBaseApi dataBaseApi;
     @Mock
     PostPresenter postPresenter;
     private NormalUser normalUser;
@@ -36,7 +36,7 @@ class AddCommentTest extends PostBase {
     public void setup() {
         this.textBox = Mockito.mock(TextBoxComponent.class);
         this.adminUser = Mockito.mock(AdminUser.class);
-        this.dataBaseApi = Mockito.mock(DataBaseApi.class);
+        this.dataBaseApi = Mockito.mock(PostDataBaseApi.class);
         this.postPresenter = Mockito.mock(PostPresenter.class);
         this.commentInteractor = new CommentInteractor(this.postPresenter,this.dataBaseApi);
         this.normalUser = new NormalUser("ali","password",new ArrayList<>());

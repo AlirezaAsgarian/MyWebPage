@@ -1,6 +1,6 @@
 package logintests;
 
-import database.boundries.DataBaseApi;
+import database.boundries.LoginDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
 import login.entities.User;
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 public class AddingNewUserTest {
 
-    DataBaseApi dataBaseApi;
+    LoginDataBaseApi dataBaseApi;
     LoginInteractor loginInteractor;
     User user;
     AdminUser adminUser;
     @BeforeEach
     public void setDataBase(){
-        this.dataBaseApi = MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
+        this.dataBaseApi = (LoginDataBaseApi) MotherLogin.getMySqlDataBaseWithTwoUserWithNameAliAndQXYZEEasAdmin();
         this.loginInteractor = new LoginInteractor(dataBaseApi);
         this.user = new NormalUser("hassan","hassanpassword",new ArrayList<>());
         this.adminUser = new AdminUser("ali","amir4639",new ArrayList<>());

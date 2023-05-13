@@ -1,7 +1,8 @@
 package showpost;
 
 import CRUDpost.PostBase;
-import database.boundries.DataBaseApi;
+import database.boundries.LoginDataBaseApi;
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Mock;
@@ -14,53 +15,59 @@ import util.Pair;
 
 public class ShowPostBase extends PostBase {
     @Mock
-    ImageComponent image;
+    protected ImageComponent image;
     @Mock
-    TextBoxComponent textBox;
+    protected TextBoxComponent textBox;
     @Mock
-    VideoComponent video;
+    protected VideoComponent video;
     protected Post post;
     protected AdminUser adminUser;
     protected Pair<Post, String> postStringPair;
     protected String message;
-    DataBaseApi dataBaseApi;
+    protected PostDataBaseApi postDataBaseApi;
+    protected LoginDataBaseApi loginDataBaseApi;
 
 
     protected void mockComponents() {
         this.image = Mockito.mock(ImageComponent.class);
         this.textBox = Mockito.mock(TextBoxComponent.class);
         this.video = Mockito.mock(VideoComponent.class);
-        mockComponent(this.image, "imagePath");
+        mockComponent(this.image, "image path");
         mockComponent(this.textBox, "text path");
         mockComponent(this.video, "video path");
     }
 
-    void assertPostIsShowingWithoutItsComments(Post post) {
+    protected void assertPostIsShowingWithoutItsComments(Post post) {
         Assertions.assertTrue(post.isShowing());
         Assertions.assertFalse(post.isShowingComments());
     }
 
-    void assertPostAndItsCommentsIsNotShowing(Post post) {
+    protected void assertPostAndItsCommentsIsNotShowing(Post post) {
         Assertions.assertFalse(post.isShowing() || post.isShowingComments());
     }
 
-    void assertPostIsShowingWithItsComments(Post post) {
+    protected void assertPostIsShowingWithItsComments(Post post) {
         Assertions.assertTrue(post.isShowingComments());
         Assertions.assertTrue(post.isShowing());
     }
 
 
-    void updateFields() {
-        adminUser = this.dataBaseApi.getAdminUserByName(adminUser.getName());
+    protected void updateFields() {
+        adminUser = this.postDataBaseApi.getAdminUserByName(adminUser.getName());
         updatePostAndResponse();
     }
 
-    void updatePostAndResponse() {
+    protected  void updatePostAndResponse() {
         post = postStringPair.getKey();
         updateResponse();
     }
 
-    void updateResponse() {
+    protected void updateResponse() {
         message = postStringPair.getValue();
+    }
+
+    protected void initializeDataBase(Object dataBaseApi) {
+        this.postDataBaseApi = (PostDataBaseApi) dataBaseApi;
+        this.loginDataBaseApi = (LoginDataBaseApi) dataBaseApi;
     }
 }

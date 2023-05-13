@@ -1,7 +1,8 @@
 package centralenginetest;
 
+import database.fileimpl.FileDataBase;
+import database.fileimpl.FileDataBaseFactory;
 import login.entities.AdminUser;
-import database.boundries.DataBaseApi;
 import login.entities.NormalUser;
 import appplay.*;
 import logintests.MotherLogin;
@@ -39,9 +40,9 @@ public class CentralEngineTest {
         this.appConsole = new TestConsole(new ArrayList<>());
         this.text = Mockito.mock(TextBoxComponent.class);
         PostPresenter postPresenter = new TestPostPresenter();
-        DataBaseApi dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
+        Object dataBaseApi = MotherLogin.getFileDataBaseWithOneUserWithNameAli();
         this.interpretor =
-                new CommandInterpretor(new CommandInterpetorNormalFactory(dataBaseApi, postPresenter));
+                new CommandInterpretor(new CommandInterpetorNormalFactory(new FileDataBaseFactory((FileDataBase) dataBaseApi), postPresenter));
         baos = setByteArrayOutputStream();
         centralEngine = new CentralEngine(this.appConsole, this.interpretor);
     }

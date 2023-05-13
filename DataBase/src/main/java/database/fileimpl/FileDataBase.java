@@ -1,6 +1,7 @@
 package database.fileimpl;
 
-import database.boundries.DataBaseApi;
+import database.boundries.LoginDataBaseApi;
+import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
 import login.entities.User;
@@ -17,10 +18,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public class FileDataBase implements DataBaseApi {
+public class FileDataBase implements LoginDataBaseApi, PostDataBaseApi {
 
     List<User> users;
     List<Post> posts;
@@ -68,7 +68,7 @@ public class FileDataBase implements DataBaseApi {
     }
 
     @Override
-    public Boolean checkNormalUserIfExistWithThisName(User user) {
+    public Boolean checkNormalUserIfExistWithThisNameAndReturn(User user) {
         for (User u:
              this.users) {
             if(u.checkIfNamesAreIdentical(user) && u instanceof NormalUser){
@@ -93,7 +93,7 @@ public class FileDataBase implements DataBaseApi {
 
 
     @Override
-    public Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisName(String user) {
+    public Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisNameAndReturn(String user) {
         for (User u:
                 this.users) {
             if(u.checkIfNamesAreIdentical(user) && u instanceof AdminUser au){
@@ -104,7 +104,12 @@ public class FileDataBase implements DataBaseApi {
     }
 
     @Override
-    public Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisName(String name) {
+    public Boolean checkAdminUserIfExistWithThisName(String name) {
+        return checkAdminUserIfExistWithThisNameAndReturn(name).getKey();
+    }
+
+    @Override
+    public Pair<Boolean, NormalUser> checkNormalUserIfExistWithThisNameAndReturn(String name) {
         for (User u:
                 this.users) {
             if(u.checkIfNamesAreIdentical(name) && u instanceof NormalUser nu){
@@ -112,6 +117,11 @@ public class FileDataBase implements DataBaseApi {
             }
         }
         return new Pair<>(false,null);
+    }
+
+    @Override
+    public Boolean checkNormalUserIfExistWithThisName(String name) {
+        return checkNormalUserIfExistWithThisNameAndReturn(name).getKey();
     }
 
     @Override
@@ -200,8 +210,8 @@ public class FileDataBase implements DataBaseApi {
 
     @Override
     public void deleteNormalUserByName(String name) {
-        for (User us:
-             this.users) {
+        for (int i = users.size() - 1; i >= 0; --i) {
+            User us = users.get(i);
             if(us instanceof NormalUser && us.getName().equals(name)){
                 this.users.remove(us);
             }
@@ -225,5 +235,33 @@ public class FileDataBase implements DataBaseApi {
         }else {
             return posts.stream().sorted((e1,e2) -> e2.getDate().compareTo(e1.getDate())).toList().subList(0,i);
         }
+    }
+
+    @Override
+    public void addRequestForFollowing(String normalName, String adminName) {
+          NormalUser normalUser = getNormalUserByName(normalName);
+          AdminUser adminUser = getAdminUserByName(adminName);
+          adminUser.getFollowingRequests().add(normalUser.getName());
+    }
+
+    @Override
+    public void acceptFollowingRequest(String adminName, String normalName) {
+        NormalUser normalUser = getNormalUserByName(normalName);
+        AdminUser adminUser = getAdminUserByName(adminName);
+        adminUser.getFollowers().add(normalName);
+        normalUser.getFollowing().add(adminName);
+        normalUser.getResponses().put(adminName,"Accepted");
+    }
+
+    @Override
+    public void rejectFollowingRequest(String adminName, String normalName) {
+        NormalUser normalUser = getNormalUserByName(normalName);
+        normalUser.getResponses().put(adminName,"Rejected");
+    }
+
+    @Override
+    public void removeResponseForNormalUser(String normalName, String adminName) {
+        NormalUser normalUser = getNormalUserByName(normalName);
+        normalUser.getResponses().remove(adminName);
     }
 }

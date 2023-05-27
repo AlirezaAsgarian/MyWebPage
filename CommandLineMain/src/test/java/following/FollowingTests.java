@@ -4,6 +4,7 @@ import database.boundries.LoginDataBaseApi;
 import follow.FollowInteractor;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
+import login.entities.UserRequest;
 import logintests.MotherLogin;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -48,12 +49,19 @@ public class FollowingTests {
     }
 
     @Test
-    void addFollower(){
+    void addFollowerRequest(){
         String response = followInteractor.addFollowerRequest("ali","QXYZEE");
         Assertions.assertEquals(response,"ali sends request to be folowers of QXYZEE");
         this.normalUser = this.loginDataBaseApi.getNormalUserByName("ali");
         this.adminUser = this.loginDataBaseApi.getAdminUserByName("QXYZEE");
-        Assertions.assertTrue(this.adminUser.getFollowingRequests().contains(this.normalUser.getName()));
+        Assertions.assertTrue(this.adminUser.getFollowingRequests().stream().map(UserRequest::getRequest).toList().contains(this.normalUser.getName()));
+    }
+    @Test
+    void cantSendTwoRequest(){
+        String response = followInteractor.addFollowerRequest("ali","QXYZEE");
+        Assertions.assertEquals(response,"ali sends request to be folowers of QXYZEE");
+        response = followInteractor.addFollowerRequest("ali","QXYZEE");
+        Assertions.assertEquals(response,"you can't sends request to this guy twice");
     }
 
     @Test
@@ -89,7 +97,7 @@ public class FollowingTests {
         normalUser = this.loginDataBaseApi.getNormalUserByName("ali");
         Assertions.assertTrue(adminUser.getFollowers().contains("ali"));
         Assertions.assertTrue(this.normalUser.getFollowing().contains("QXYZEE"));
-        Assertions.assertEquals(normalUser.getResponses().get("QXYZEE"),"Accepted");
+        Assertions.assertEquals(normalUser.getResponseByKey("QXYZEE").get(0).getResponse(),"Accepted");
     }
 
     @Test
@@ -100,7 +108,7 @@ public class FollowingTests {
         adminUser = this.loginDataBaseApi.getAdminUserByName("QXYZEE");
         normalUser = this.loginDataBaseApi.getNormalUserByName("ali");
         Assertions.assertFalse(adminUser.getFollowers().contains("ali"));
-        Assertions.assertEquals(normalUser.getResponses().get("QXYZEE"),"Rejected");
+        Assertions.assertEquals(normalUser.getResponseByKey("QXYZEE").get(0).getResponse(),"Rejected");
     }
 
     @Test
@@ -128,7 +136,7 @@ public class FollowingTests {
         followInteractor.responseFollowingRequest("QXYZEE","ali",false);
         response = followInteractor.responseSeenedAndRemove("ali","QXYZEE");
         this.normalUser = this.loginDataBaseApi.getNormalUserByName("ali");
-        Assertions.assertFalse(this.normalUser.getResponses().containsKey("QXYZEE"));
+        Assertions.assertEquals(0, this.normalUser.getResponseByKey("QXYZEE").size());
         Assertions.assertEquals("response has seen and removed",response);
     }
 

@@ -3,7 +3,6 @@ package login.interactors;
 import database.boundries.LoginDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
-import login.entities.User;
 import lombok.Getter;
 import post.entity.Comment;
 import post.entity.Post;
@@ -16,14 +15,14 @@ public class LoginInteractor implements LoginUsecase {
         this.dataBaseApi = dataBaseApi;
     }
 
-    User loggedInUser;
+
     @Getter
     LoginDataBaseApi dataBaseApi;
     public void setDataBaseApi(LoginDataBaseApi dataBaseApi) {
         this.dataBaseApi = dataBaseApi;
     }
 
-    public String checkNormalUserIfExistWithThisName(User user){
+    public String checkNormalUserIfExistWithThisName(NormalUser user){
         boolean isExist = userExistsWithThisName(user);
         if (isExist)
             return "user exists with this name";
@@ -38,7 +37,7 @@ public class LoginInteractor implements LoginUsecase {
         return name + " added successfully";
     }
 
-    private boolean userExistsWithThisName(User user) {
+    private boolean userExistsWithThisName(NormalUser user) {
         return dataBaseApi.checkNormalUserIfExistWithThisNameAndReturn(user);
     }
     private Pair<Boolean, NormalUser> userExistsWithThisName(String name) {
@@ -52,9 +51,9 @@ public class LoginInteractor implements LoginUsecase {
         if(!message.equals("ok")){
             return message;
         }
-        this.loggedInUser = messageXuser.getValue();
+
         // todo : complete login
-        return this.loggedInUser.getName() + " logged in successfully";
+        return name + " logged in successfully";
     }
 
     private Pair<String, NormalUser> validateNameAndPassword(String name, String password) {
@@ -70,11 +69,11 @@ public class LoginInteractor implements LoginUsecase {
         return new Pair<>("ok",loggingUser);
     }
 
-    private boolean passwordIsCorrect(User user,String password) {
+    private boolean passwordIsCorrect(NormalUser user,String password) {
         return user.getPassword().equals(password);
     }
 
-    public String loginAdminUser(User user) {
+    public String loginAdminUser(AdminUser user) {
         if(!checkAdminUserIfExistWithThisName(user)){
             return "no admin exists with this name";
         }
@@ -82,7 +81,7 @@ public class LoginInteractor implements LoginUsecase {
         return "admin logged in successfully";
     }
 
-    private boolean checkAdminUserIfExistWithThisName(User user) {
+    private boolean checkAdminUserIfExistWithThisName(AdminUser user) {
         return this.dataBaseApi.checkAdminUserIfExistWithThisNameAndReturn(user.getName()).getKey();
     }
 
@@ -93,7 +92,7 @@ public class LoginInteractor implements LoginUsecase {
             return "no admin user exists with this name";
         }
         AdminUser loggingUser = isExistXuser.getValue();
-        if(!passwordIsCorrect(loggingUser,password)){
+        if(!loggingUser.getPassword().equals(password)){
             return "password is wrong";
         }
         // login

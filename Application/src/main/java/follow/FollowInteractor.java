@@ -3,6 +3,8 @@ package follow;
 import database.boundries.LoginDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
+import login.entities.UserRequest;
+import util.Pair;
 
 import java.util.List;
 
@@ -14,11 +16,16 @@ public class FollowInteractor {
     }
 
     public String addFollowerRequest(String normalName, String adminName) {
-        if(!this.loginDataBaseApi.checkAdminUserIfExistWithThisName(adminName)){
+        Pair<Boolean,AdminUser> boolAdminPair = this.loginDataBaseApi.checkAdminUserIfExistWithThisNameAndReturn(adminName);
+        if(!boolAdminPair.getKey()){
             return "no admin exists with this name";
         }
+        AdminUser adminUser = boolAdminPair.getValue();
         if(!this.loginDataBaseApi.checkNormalUserIfExistWithThisName(normalName)){
             return "no normal user exists with this name";
+        }
+        if(adminUser.hasRequestFromThisUser(normalName,"FollowingRequest")){
+            return "you can't sends request to this guy twice";
         }
         this.loginDataBaseApi.addRequestForFollowing(normalName,adminName);
         return normalName + " sends request to be folowers of " + adminName;
@@ -32,15 +39,17 @@ public class FollowInteractor {
         if(!this.loginDataBaseApi.checkNormalUserIfExistWithThisName(normalName)){
             return "no normal user exists with this name";
         }
-        List<String> requests = adminUser.getFollowingRequests();
-        if(!requests.contains(normalName)){
+        List<UserRequest> requests = adminUser.getFollowingRequests();
+        List<String> requestText = requests.stream().map(UserRequest::getRequest).toList();
+        int indexOfNormalNameRequest = requestText.indexOf(normalName);
+        if(indexOfNormalNameRequest == -1){
             return "no normal user exists with this name in " + adminName +  " requests";
         }
         if(isAccept){
-            this.loginDataBaseApi.acceptFollowingRequest(adminName,normalName);
+            requests.get(indexOfNormalNameRequest).accept(this.loginDataBaseApi);
             return adminName + " accept " + normalName +  " and " + normalName +  " added to " + adminName + " followers";
         }else {
-            this.loginDataBaseApi.rejectFollowingRequest(adminName,normalName);
+            requests.get(indexOfNormalNameRequest).reject(this.loginDataBaseApi);
             return adminName + " reject " + normalName + " :)";
         }
     }
@@ -53,10 +62,10 @@ public class FollowInteractor {
         if(normalUser == null){
             return "no normal user exists with this name";
         }
-        if(!normalUser.getResponses().containsKey(adminName)){
+        if(normalUser.getResponseByKey(adminName).size() == 0){
             return adminName + " has no response for " + normalName;
         }
-        this.loginDataBaseApi.removeResponseForNormalUser(normalName,adminName);
+        this.loginDataBaseApi.removeResponseForNormalUser(normalName,adminName,"FollowingResponse");
         return "response has seen and removed";
     }
 }

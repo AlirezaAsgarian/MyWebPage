@@ -9,6 +9,8 @@
     <file url="file://$PROJECT_DIR$/CommandLineUI/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/DataBase/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/DataBase/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/DataBaseModuleJpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/JpaDataBase/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringUI/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringUI/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />

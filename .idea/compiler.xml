@@ -7,7 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="DataBaseModuleJpa" />
         <module name="CommandLineUI" />
+        <module name="JpaDataBase" />
         <module name="Application" />
         <module name="CommandLineMain" />
         <module name="SpringUI" />
@@ -24,6 +26,8 @@
       <module name="CommandLineMain" options="-parameters" />
       <module name="CommandLineUI" options="-parameters" />
       <module name="DataBase" options="-parameters" />
+      <module name="DataBaseModuleJpa" options="-parameters" />
+      <module name="JpaDataBase" options="-parameters" />
       <module name="SpringUI" options="-parameters" />
     </option>
   </component>

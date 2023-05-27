@@ -36,7 +36,7 @@ public class MySqlDataBase implements LoginDataBaseApi, PostDataBaseApi {
     }
 
     @Override
-    public Boolean checkNormalUserIfExistWithThisNameAndReturn(User user) {
+    public Boolean checkNormalUserIfExistWithThisNameAndReturn(NormalUser user) {
         try {
             Statement stm = createStatement();
             String query = queryFormatter.selectUserByColumnsNames( "NormalUser", List.of("username"), List.of(user.getName()));
@@ -52,7 +52,7 @@ public class MySqlDataBase implements LoginDataBaseApi, PostDataBaseApi {
     }
 
     @Override
-    public void addNormalUser(User user) {
+    public void addNormalUser(NormalUser user) {
         try {
             NormalUser normalUser = (NormalUser) user;
             Statement stm = createStatement();
@@ -367,7 +367,7 @@ public class MySqlDataBase implements LoginDataBaseApi, PostDataBaseApi {
     }
 
     @Override
-    public void removeResponseForNormalUser(String normalName, String adminName) {
+    public void removeResponseForNormalUser(String normalName, String adminName, String type) {
 
     }
 }

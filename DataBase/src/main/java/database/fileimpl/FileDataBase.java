@@ -2,9 +2,7 @@ package database.fileimpl;
 
 import database.boundries.LoginDataBaseApi;
 import database.boundries.PostDataBaseApi;
-import login.entities.AdminUser;
-import login.entities.NormalUser;
-import login.entities.User;
+import login.entities.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -84,7 +82,7 @@ public class FileDataBase implements LoginDataBaseApi, PostDataBaseApi {
     }
 
     @Override
-    public void addAdminUser(User user) {
+    public void addAdminUser(AdminUser  user) {
         this.users.add(user);
     }
 
@@ -241,7 +239,7 @@ public class FileDataBase implements LoginDataBaseApi, PostDataBaseApi {
     public void addRequestForFollowing(String normalName, String adminName) {
           NormalUser normalUser = getNormalUserByName(normalName);
           AdminUser adminUser = getAdminUserByName(adminName);
-          adminUser.getFollowingRequests().add(normalUser.getName());
+          adminUser.getFollowingRequests().add(new FollowingRequest(normalUser.getName(),adminUser.getName()));
     }
 
     @Override
@@ -250,18 +248,19 @@ public class FileDataBase implements LoginDataBaseApi, PostDataBaseApi {
         AdminUser adminUser = getAdminUserByName(adminName);
         adminUser.getFollowers().add(normalName);
         normalUser.getFollowing().add(adminName);
-        normalUser.getResponses().put(adminName,"Accepted");
+        normalUser.getResponses().add(new FollowingResponse(true,adminName,normalName));
     }
 
     @Override
     public void rejectFollowingRequest(String adminName, String normalName) {
         NormalUser normalUser = getNormalUserByName(normalName);
-        normalUser.getResponses().put(adminName,"Rejected");
+        normalUser.getResponses().add(new FollowingResponse(false,adminName,normalName));
     }
 
     @Override
-    public void removeResponseForNormalUser(String normalName, String adminName) {
+    public void removeResponseForNormalUser(String normalName, String adminName, String type) {
         NormalUser normalUser = getNormalUserByName(normalName);
-        normalUser.getResponses().remove(adminName);
+        UserResponse ur = normalUser.getResponseByTypeAndName(adminName,type);
+        normalUser.getResponses().remove(ur);
     }
 }

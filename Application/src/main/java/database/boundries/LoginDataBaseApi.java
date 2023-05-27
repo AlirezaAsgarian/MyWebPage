@@ -2,14 +2,13 @@ package database.boundries;
 
 import login.entities.AdminUser;
 import login.entities.NormalUser;
-import login.entities.User;
-import util.Pair;
+ import util.Pair;
 
 public interface LoginDataBaseApi {
-    Boolean checkNormalUserIfExistWithThisNameAndReturn(User user);
+    Boolean checkNormalUserIfExistWithThisNameAndReturn(NormalUser user);
 
-    void addNormalUser(User user);
-    void addAdminUser(User user);
+    void addNormalUser(NormalUser user);
+    void addAdminUser(AdminUser user);
 
 
     Pair<Boolean, AdminUser> checkAdminUserIfExistWithThisNameAndReturn(String name);
@@ -34,5 +33,5 @@ public interface LoginDataBaseApi {
 
     void rejectFollowingRequest(String adminName, String normalName);
 
-    void removeResponseForNormalUser(String normalName, String adminName);
+    void removeResponseForNormalUser(String normalName, String adminName, String type);
 }

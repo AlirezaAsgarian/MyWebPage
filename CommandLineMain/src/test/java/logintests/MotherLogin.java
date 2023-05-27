@@ -21,7 +21,7 @@ public class MotherLogin {
 
     public static FileDataBase getFileDataBaseWithOneUserWithNameAliAndQXYZEEasAdmin(){
         FileDataBase dataBaseApi = new FileDataBase(new ArrayList<>(),new ArrayList<>(),new ArrayList<>());
-        dataBaseApi.addNormalUser(new NormalUser("ali","AliPassword",new ArrayList<>(),new ArrayList<>(),new HashMap<>()));
+        dataBaseApi.addNormalUser(new NormalUser("ali","AliPassword",new ArrayList<>(),new ArrayList<>(),new ArrayList<>()));
         dataBaseApi.addAdminUser(new AdminUser("QXYZEE","password",new ArrayList<>(),new ArrayList<>(),new ArrayList<>()));
         return dataBaseApi;
     }

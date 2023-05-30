@@ -21,9 +21,10 @@ import java.util.Map;
 @Table(name = "normal_user")
 public class NormalUser extends User {
 
-    @Getter
+
     @JacksonXmlProperty(localName = "comments")
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owne_name",referencedColumnName = "name")
     List<Comment> comments;
     @ElementCollection(targetClass = String.class)
     @CollectionTable(name = "following_names",joinColumns = @JoinColumn(name = "owner_name"))

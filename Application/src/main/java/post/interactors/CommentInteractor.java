@@ -3,6 +3,7 @@ package post.interactors;
 import database.boundries.PostDataBaseApi;
 import login.entities.AdminUser;
 import login.entities.NormalUser;
+import post.boundries.TestText;
 import post.entity.Comment;
 import post.entity.Post;
 import post.boundries.PostPresenter;
@@ -37,8 +38,9 @@ public class CommentInteractor implements CommentUsecase {
         this.dataBaseApi.addComment(comment);
     }
 
+    //todo : ;update
     private static Comment createComment(TextBoxComponent textBox, Post post, NormalUser normalUser) {
-        Comment comment = new Comment(textBox, normalUser, post);
+        Comment comment = new Comment(new TestText(), normalUser, post);
         return comment;
     }
 

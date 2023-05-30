@@ -9,6 +9,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
             <class>login.entities.NormalUser</class>
             <class>login.entities.TestEntity</class>
+            <class>post.entity.Comment</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mywebpagejpa_server"/>
             <property name="jakarta.persistence.jdbc.user" value="mywebpage"/>

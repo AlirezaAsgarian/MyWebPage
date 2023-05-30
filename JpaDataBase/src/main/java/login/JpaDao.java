@@ -9,7 +9,6 @@ import login.entities.TestEntity;
 import org.hibernate.Session;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import util.Pair;
-@EntityScan(basePackages = "login.entities.NormalUser")
 public class JpaDao implements LoginDataBaseApi,AutoCloseable {
 
 
@@ -33,6 +32,9 @@ public class JpaDao implements LoginDataBaseApi,AutoCloseable {
 
     public void addNormalUser(NormalUser user) {
         session.getTransaction().begin();
+//        String s = "SET FOREIGN_KEY_CHECKS=0";
+//        Query q = entityManager.createQuery(s);
+//        q.executeUpdate();
         session.persist(user);
         session.getTransaction().commit();
     }
